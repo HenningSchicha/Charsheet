@@ -24,6 +24,7 @@ public class UI {
     static Border dBorder,noBorder,plusBorder;
     static JFormattedTextField[] Areas;
     static String[] Strings;
+    static JButton[] Buttons;
     static NumberFormat format=NumberFormat.getNumberInstance();
     static NumberFormatter numfom=new NumberFormatter(format);
     public static void main(String [] args){
@@ -370,7 +371,23 @@ public class UI {
         twocrit = new JButton("Crit");
         threecrit = new JButton("Crit");
         fourcrit = new JButton("Crit");
+        putButtonsInArray();
         saveAttacks=new JButton("Save all");
+    }
+    static void putButtonsInArray(){
+        Buttons=new JButton[12];
+        Buttons[0]=onetohit;
+        Buttons[1]=twotohit;
+        Buttons[2]=threetohit;
+        Buttons[3]=fourtohit;
+        Buttons[4]=oneattack;
+        Buttons[5]=twoattack;
+        Buttons[6]=threeattack;
+        Buttons[7]=fourattack;
+        Buttons[8]=onecrit;
+        Buttons[9]=twocrit;
+        Buttons[10]=threecrit;
+        Buttons[11]=fourcrit;
     }
     static void addActionListeners() {
         saveAttacks.addActionListener(listen);
