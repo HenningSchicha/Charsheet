@@ -5,6 +5,7 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.NumberFormatter;
 import java.awt.*;
+import java.io.IOException;
 import java.text.NumberFormat;
 
 public class UI {
@@ -27,10 +28,11 @@ public class UI {
     static JButton[] Buttons;
     static NumberFormat format=NumberFormat.getNumberInstance();
     static NumberFormatter numfom=new NumberFormatter(format);
-    public static void main(String [] args){
+    public static void main(String [] args) throws IOException {
         init();
         Idle.init();
         Equipment.init();
+        Spellbook.init();
         listen=new AListener();
         initPanels();
         initFormat();
@@ -40,7 +42,7 @@ public class UI {
         initFrame();
         setDefaultPanelLayouts();
         initializeJFormattedTextFields();
-        initButtonText();
+        initButtons();
         addActionListeners();
         addGridComponents();
         initLabels();
@@ -86,7 +88,7 @@ public class UI {
         frame = new JFrame("DnD Character sheet");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setResizable(true);
-        frame.setSize(1200, 820);
+        frame.setSize(1440, 810);
         frame.add(main);
     }
     static void initPanels() {
@@ -135,6 +137,7 @@ public class UI {
         main.add(PMain, BorderLayout.CENTER);
         PTop.add(PLabels, BorderLayout.NORTH);
         PTop.add(PMenu, BorderLayout.CENTER);
+        PSpellbook.add(Spellbook.outer);
         createMenuStructure();
     }
     static void createMenuStructure() {
@@ -160,6 +163,12 @@ public class UI {
         AResult = new JLabel("Next result will appear here");
         AnResult = new JLabel();
         AndResult = new JLabel();
+        labelStyle();
+    }
+    static void labelStyle(){
+        AResult.setFont(new Font("Sans Serif", 0, 25));
+        AnResult.setFont(new Font("Sans Serif", 0, 25));
+        AndResult.setFont(new Font("Sans Serif", 0, 25));
     }
     static void addLabelsToPanels() {
         ATriple.add(AResult);
@@ -223,8 +232,6 @@ public class UI {
         cwepthree.setEditable(false);
         cwepfour.setEditable(false);
     }
-
-
 
     static void addWeaponsToPanels() {
         cweone.add(cwepone);
@@ -358,7 +365,7 @@ public class UI {
         MainA.add(AWT);
         MainA.add(AXT);
     }
-    static void initButtonText() {
+    static void initButtons() {
         onetohit = new JButton("To hit");
         twotohit = new JButton("To hit");
         threetohit = new JButton("To hit");
@@ -372,7 +379,14 @@ public class UI {
         threecrit = new JButton("Crit");
         fourcrit = new JButton("Crit");
         putButtonsInArray();
+        styleButtons();
         saveAttacks=new JButton("Save all");
+    }
+    static void styleButtons(){
+        for(int i=0;i<Buttons.length;i++){
+            Buttons[i].setFont(new Font("Arial Black",Font.BOLD, 23));
+            Buttons[i].updateUI();
+        }
     }
     static void putButtonsInArray(){
         Buttons=new JButton[12];

@@ -1,20 +1,48 @@
 package com.company;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 
 public class Spellbook {
-}
+    static JPanel top, outer;
+    static JTextField searchbar;
+    static JButton searchbutton, SAVEbutton;
 
+    public static void init() throws IOException {
+        outer = new JPanel();
+        outer.setLayout(new BorderLayout());
+        outer.setOpaque(true);
+        top = new JPanel(new FlowLayout());
+        searchbar = new JTextField();
+        searchbar.setPreferredSize(new Dimension(400, 50));
+        top.add(searchbar);
+        searchbutton = new JButton("", new ImageIcon("src/com/company/searchMonocle.jpg"));
+        top.add(searchbutton);
+        searchbutton.setMargin(new Insets(0, 0, 0, 0));
+        searchbutton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        SAVEbutton = new JButton("SAVEEE");
+        top.add(SAVEbutton);
+        outer.add(top,BorderLayout.NORTH);
+        SAVEbutton.setPreferredSize(new Dimension(150, 50));
+        outer.add(searchbar,BorderLayout.CENTER);
+    }
+}
 class MenuComponent{
-    JPanel main;
-    JButton open,roll;
-    JLabel name;
-    AListener listen;
-    MenuComponent(String pname) {
+   static JPanel main;
+   static JButton open,roll;
+   static JLabel name;
+   static AListener listen;
+   MenuComponent(String pname) {
         main=new JPanel(new FlowLayout());
         open=new JButton("Edit");
         roll=new JButton("Roll");
@@ -29,8 +57,8 @@ class MenuComponent{
 }
 
 class Spell{
-    String desc,range,name,level,school,speed,damage;
-    Boolean ritual,concentration;
+   static String desc,range,name,level,school,speed,damage;
+   static Boolean ritual,concentration;
     Spell(String pdesc, String prange, String pname, String plevel, String pschool, String pspeed, String pdamage, Boolean pritual, Boolean pconcentration){
         if (pdesc=="") desc="No Description"; else desc=pdesc;
         if (prange=="") range="Special";else range=prange;
@@ -42,21 +70,21 @@ class Spell{
         ritual=pritual;
         concentration=pconcentration;
     }
-    Spell defaultSpell(){
+   static Spell defaultSpell(){
         return new Spell("","","","","","","",false,false);
     }
-    private int[] rolldmg(){
+   static private int[] rolldmg(){
         return CommonFunctions.RollDice(damage);
     }
 }
 class SpellMenu{
-    JPanel main;
-    Border b;
-    JTextField range,name,level,school,speed,damage;
-    JTextArea desc;
-    JCheckBox ritual,concentration;
-    JButton save;
-    AListener listen;
+   static JPanel main;
+   static Border b;
+   static JTextField range,name,level,school,speed,damage;
+   static JTextArea desc;
+   static JCheckBox ritual,concentration;
+   static JButton save;
+   static AListener listen;
     private SpellMenu(){
         main=new JPanel(new FlowLayout());
         b=BorderFactory.createLineBorder(Color.BLACK);
@@ -89,7 +117,7 @@ class SpellMenu{
         main.add(desc);
         main.add(save);
     }
-    private void FillFromSpell(Spell filler){
+  static private void FillFromSpell(Spell filler){
         name.setText(filler.name);
         range.setText(filler.range);
         desc.setText(filler.desc);
@@ -100,7 +128,7 @@ class SpellMenu{
         damage.setText(filler.damage);
         ritual.setSelected(filler.ritual);
     }
-    private void SaveToSpell(Spell filled){
+    static private void SaveToSpell(Spell filled){
        filled.name=name.getText();
        filled.range=range.getText();
        filled.desc=desc.getText();
@@ -112,11 +140,11 @@ class SpellMenu{
        filled.ritual=ritual.isSelected();
     }
 
-    private Spell CreateSpell(){
+    static private Spell CreateSpell(){
         return new Spell(desc.getText(),range.getText(),name.getText(),level.getText(),school.getText(),speed.getText(),damage.getText(),ritual.isSelected(),concentration.isSelected());
     }
 
-    private CompoundBorder tborder(String title){
+    static private CompoundBorder tborder(String title){
         var m=BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(title),b);
         return m;
     }
