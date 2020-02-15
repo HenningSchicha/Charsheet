@@ -21,6 +21,7 @@ public class UI {
     static JLabel AResult,AnResult,AndResult;
     static Border dBorder,noBorder,plusBorder;
     static JTextArea[] Areas;
+    static String[] Strings;
     public static void main(String [] args){
         init();
         Idle.init();
@@ -377,32 +378,66 @@ public class UI {
         PStats.setVisible(false);
         PSpellbook.setVisible(false);
     }
+    static void putStringsInArray(){
+        Strings= new String[100];
+        Strings[0]=AA;
+        Strings[1]=AB;
+        Strings[2]=AC;
+        Strings[3]=AD;
+        Strings[4]=AE;
+        Strings[5]=AF;
+        Strings[6]=AG;
+        Strings[7]=AH;
+        Strings[8]=AI;
+        Strings[9]=AJ;
+        Strings[10]=AK;
+        Strings[11]=AL;
+        Strings[12]=AM;
+        Strings[13]=AN;
+        Strings[14]=AO;
+        Strings[15]=AP;
+        Strings[16]=AQ;
+        Strings[17]=AR;
+        Strings[18]=AS;
+        Strings[19]=AT;
+        Strings[20]=AU;
+        Strings[21]=AV;
+        Strings[22]=AW;
+        Strings[23]=AX;
+    }
+    static void putArrayInStrings(){
+        AA=Strings[0];
+        AB=Strings[1];
+        AC=Strings[2];
+        AD=Strings[3];
+        AE=Strings[4];
+        AF=Strings[5];
+        AG=Strings[6];
+        AH=Strings[7];
+        AI=Strings[8];
+        AJ=Strings[9];
+        AK=Strings[10];
+        AL=Strings[11];
+        AM=Strings[12];
+        AN=Strings[13];
+        AO=Strings[14];
+        AP=Strings[15];
+        AQ=Strings[16];
+        AR=Strings[17];
+        AS=Strings[18];
+        AT=Strings[19];
+        AU=Strings[20];
+        AV=Strings[21];
+        AW=Strings[22];
+        AX=Strings[23];
+    }
     public static void saveAttacks(){
         System.out.println("saved");
-        AA=AAT.getText();
-        AB=ABT.getText();
-        AC=ACT.getText();
-        AD=ADT.getText();
-        AE=AET.getText();
-        AF=AFT.getText();
-        AG=AGT.getText();
-        AH=AHT.getText();
-        AI=AIT.getText();
-        AJ=AJT.getText();
-        AK=AKT.getText();
-        AL=ALT.getText();
-        AM=AMT.getText();
-        AN=ANT.getText();
-        AO=AOT.getText();
-        AP=APT.getText();
-        AQ=AQT.getText();
-        AR=ART.getText();
-        AS=AST.getText();
-        AT=ATT.getText();
-        AU=AUT.getText();
-        AV=AVT.getText();
-        AW=AWT.getText();
-        AX=AXT.getText();
+        putStringsInArray();
+        for (int i = 0; i < 24; i++) {
+            Strings[i] =getsafeText(Areas[i]);
+        }
+        putArrayInStrings();
         weapone=wepone.getText();
         weaptwo=weptwo.getText();
         weapthree=wepthree.getText();
@@ -412,7 +447,10 @@ public class UI {
         cwepthree.setText(wepthree.getText());
         cwepfour.setText(wepfour.getText());
     }
-
+    public static String getsafeText(JTextArea j){
+        if (j.getText().equals("")) return "0";
+        else return j.getText();
+    }
     public static void RollAttack(String ex, String dee, String and,String Weapon,String action,Boolean crit){
         System.out.println("hitting");
         try {
