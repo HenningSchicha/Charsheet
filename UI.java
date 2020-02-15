@@ -20,6 +20,7 @@ public class UI {
     static JPanel TopA, MainA,DownA,weapnames,weone,wetwo,wethree,wefour,cweone,cwetwo,cwethree,cwefour,APlaceholder,ATriple;
     static JLabel AResult,AnResult,AndResult;
     static Border dBorder,noBorder,plusBorder;
+    static JTextArea[] Areas;
     public static void main(String [] args){
         init();
         Idle.init();
@@ -32,7 +33,6 @@ public class UI {
         initFrame();
         setDefaultPanelLayouts();
         initializeJTextAreas();
-        initJTextAreaBorders();
         initButtonText();
         addActionListeners();
         addGridComponents();
@@ -190,7 +190,7 @@ public class UI {
         dBorder = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.black),
                 BorderFactory.createTitledBorder(dBorder, "Dice", TitledBorder.CENTER, TitledBorder.ABOVE_TOP));
         plusBorder = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.black),
-                BorderFactory.createTitledBorder(plusBorder, "Plus", TitledBorder.CENTER, TitledBorder.ABOVE_TOP));
+                BorderFactory.createTitledBorder(plusBorder, "Modifier", TitledBorder.CENTER, TitledBorder.ABOVE_TOP));
     }
     static void addWeapons(){
         initWeaponPanels();
@@ -211,6 +211,9 @@ public class UI {
         cwepthree.setEditable(false);
         cwepfour.setEditable(false);
     }
+
+
+
     static void addWeaponsToPanels() {
         cweone.add(cwepone);
         cwetwo.add(cweptwo);
@@ -232,7 +235,7 @@ public class UI {
         APlaceholder.add(cwefour);
     }
     static void initializeJTextAreas() {
-        AAT = new JTextArea(AA + "\n\n\n\n\n\n");
+        AAT = new JTextArea(AA);
         ABT = new JTextArea(AB);
         ACT = new JTextArea(AC);
         AST = new JTextArea(AS);
@@ -256,33 +259,48 @@ public class UI {
         ANT = new JTextArea(AN);
         ADT = new JTextArea(AD);
         AXT = new JTextArea(AX);
+        putAreasInArray();
+        setAllFontsAndStyles();
     }
-    static void initJTextAreaBorders() {
-        AAT.setBorder(noBorder);
-        ABT.setBorder(dBorder);
-        ACT.setBorder(plusBorder);
-        ADT.setBorder(noBorder);
-        AET.setBorder(dBorder);
-        AFT.setBorder(plusBorder);
-        AGT.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        AHT.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        AIT.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        AJT.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        AKT.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        ALT.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        AMT.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        ANT.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        AOT.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        APT.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        AQT.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        ART.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        AST.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        ATT.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        AUT.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        AVT.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        AWT.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        AXT.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+//  Erstmal For-Schleife
+    static void putAreasInArray(){
+        Areas=new JTextArea[100];
+        Areas[0]=AAT;
+        Areas[1]=ABT;
+        Areas[2]=ACT;
+        Areas[3]=ADT;
+        Areas[4]=AET;
+        Areas[5]=AFT;
+        Areas[6]=AGT;
+        Areas[7]=AHT;
+        Areas[8]=AIT;
+        Areas[9]=AJT;
+        Areas[10]=AKT;
+        Areas[11]=ALT;
+        Areas[12]=AMT;
+        Areas[13]=ANT;
+        Areas[14]=AOT;
+        Areas[15]=APT;
+        Areas[16]=AQT;
+        Areas[17]=ART;
+        Areas[18]=AST;
+        Areas[19]=ATT;
+        Areas[20]=AUT;
+        Areas[21]=AVT;
+        Areas[22]=AWT;
+        Areas[23]=AXT;
     }
+    static void setAllFontsAndStyles(){
+        for (int i = 0; i<24;i++) {
+            Areas[i].setFont(new Font("Segoe Script",0, 65));
+            Areas[i].setLineWrap(true);
+            Areas[i].setWrapStyleWord(true);
+            if (i%3==0) Areas[i].setBorder(noBorder);
+            if (i%3==1) Areas[i].setBorder(dBorder);
+            if (i%3==2) Areas[i].setBorder(plusBorder);
+        }
+    }
+
     static void addGridComponents() {
         MainA.add(AAT);
         MainA.add(ABT);
