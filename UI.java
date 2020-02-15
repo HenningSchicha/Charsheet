@@ -3,7 +3,9 @@ package com.company;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
+import java.text.NumberFormat;
 
 public class UI {
     static AListener listen;
@@ -11,29 +13,32 @@ public class UI {
     static JPanel main, PTop,PLabels,PMenu,PAttacks,PEquip,PRolls,PStats,PSpellbook,PMain;
     static JButton BAttacks, BEquip, BRolls, BStats,BIdle,BSpellbook;
     static JLabel LName,LClass,LLvl;
-    static BorderLayout outside,inside;
     static String charname,classname,lvl;
 
     static JButton saveAttacks, onetohit, oneattack, twotohit,twoattack,threetohit,threeattack,fourtohit,fourattack,onecrit,twocrit,threecrit,fourcrit;
     static String AA,AB,AC,AD,AE,AF,AG,AH,AI,AJ,AK,AL,AM,AN,AO,AP,AQ,AR,AS,AT,AU,AV,AW,AX,weapone,weaptwo,weapthree,weapfour;
-    static JTextArea AAT,ABT,ACT,ADT,AET,AFT,AGT,AHT,AIT,AJT,AKT,ALT,AMT,ANT,AOT,APT,AQT,ART,AST,ATT,AUT,AVT,AWT,AXT,wepone,weptwo,wepthree,wepfour,cwepone,cweptwo,cwepthree,cwepfour;
+    static JTextArea wepone,weptwo,wepthree,wepfour,cwepone,cweptwo,cwepthree,cwepfour;
+    static JFormattedTextField AAT,ABT,ACT,ADT,AET,AFT,AGT,AHT,AIT,AJT,AKT,ALT,AMT,ANT,AOT,APT,AQT,ART,AST,ATT,AUT,AVT,AWT,AXT;
     static JPanel TopA, MainA,DownA,weapnames,weone,wetwo,wethree,wefour,cweone,cwetwo,cwethree,cwefour,APlaceholder,ATriple;
     static JLabel AResult,AnResult,AndResult;
     static Border dBorder,noBorder,plusBorder;
-    static JTextArea[] Areas;
+    static JFormattedTextField[] Areas;
     static String[] Strings;
+    static NumberFormat format=NumberFormat.getNumberInstance();
+    static NumberFormatter numfom=new NumberFormatter(format);
     public static void main(String [] args){
         init();
         Idle.init();
         Equipment.init();
         listen=new AListener();
         initPanels();
+        initFormat();
         initJTextAreas();
         addWeapons();
         createTitleBorders();
         initFrame();
         setDefaultPanelLayouts();
-        initializeJTextAreas();
+        initializeJFormattedTextFields();
         initButtonText();
         addActionListeners();
         addGridComponents();
@@ -43,6 +48,11 @@ public class UI {
         createJPanelStructure();
         setDefaultVisibilities();
     }
+    static void initFormat(){
+        numfom.setValueClass(Integer.class);
+        numfom.setAllowsInvalid(true);
+    }
+
     static void initJTextAreas(){
         wepone=new JTextArea(weapone);
         weptwo=new JTextArea(weaptwo);
@@ -187,9 +197,9 @@ public class UI {
     }
     static void createTitleBorders() {
         noBorder = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.black),
-                BorderFactory.createTitledBorder(noBorder, "Number of", TitledBorder.CENTER, TitledBorder.ABOVE_TOP));
+                BorderFactory.createTitledBorder(noBorder, "Number of Dice", TitledBorder.CENTER, TitledBorder.ABOVE_TOP));
         dBorder = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.black),
-                BorderFactory.createTitledBorder(dBorder, "Dice", TitledBorder.CENTER, TitledBorder.ABOVE_TOP));
+                BorderFactory.createTitledBorder(dBorder, "Rolled Dice", TitledBorder.CENTER, TitledBorder.ABOVE_TOP));
         plusBorder = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.black),
                 BorderFactory.createTitledBorder(plusBorder, "Modifier", TitledBorder.CENTER, TitledBorder.ABOVE_TOP));
     }
@@ -235,37 +245,45 @@ public class UI {
         APlaceholder.add(cwethree);
         APlaceholder.add(cwefour);
     }
-    static void initializeJTextAreas() {
-        AAT = new JTextArea(AA);
-        ABT = new JTextArea(AB);
-        ACT = new JTextArea(AC);
-        AST = new JTextArea(AS);
-        AET = new JTextArea(AE);
-        AJT = new JTextArea(AJ);
-        AOT = new JTextArea(AO);
-        ATT = new JTextArea(AT);
-        AFT = new JTextArea(AF);
-        AKT = new JTextArea(AK);
-        APT = new JTextArea(AP);
-        AUT = new JTextArea(AU);
-        AGT = new JTextArea(AG);
-        ALT = new JTextArea(AL);
-        AQT = new JTextArea(AQ);
-        AVT = new JTextArea(AV);
-        AHT = new JTextArea(AH);
-        AMT = new JTextArea(AM);
-        ART = new JTextArea(AR);
-        AWT = new JTextArea(AW);
-        AIT = new JTextArea(AI);
-        ANT = new JTextArea(AN);
-        ADT = new JTextArea(AD);
-        AXT = new JTextArea(AX);
+    static void initializeJFormattedTextFields() {
+        AAT = new JFormattedTextField(numfom);
+        ABT = new JFormattedTextField(numfom);
+        ACT = new JFormattedTextField(numfom);
+        AST = new JFormattedTextField(numfom);
+        AET = new JFormattedTextField(numfom);
+        AJT = new JFormattedTextField(numfom);
+        AOT = new JFormattedTextField(numfom);
+        ATT = new JFormattedTextField(numfom);
+        AFT = new JFormattedTextField(numfom);
+        AKT = new JFormattedTextField(numfom);
+        APT = new JFormattedTextField(numfom);
+        AUT = new JFormattedTextField(numfom);
+        AGT = new JFormattedTextField(numfom);
+        ALT = new JFormattedTextField(numfom);
+        AQT = new JFormattedTextField(numfom);
+        AVT = new JFormattedTextField(numfom);
+        AHT = new JFormattedTextField(numfom);
+        AMT = new JFormattedTextField(numfom);
+        ART = new JFormattedTextField(numfom);
+        AWT = new JFormattedTextField(numfom);
+        AIT = new JFormattedTextField(numfom);
+        ANT = new JFormattedTextField(numfom);
+        ADT = new JFormattedTextField(numfom);
+        AXT = new JFormattedTextField(numfom);
         putAreasInArray();
+        initJFormattedTextFieldTexts();
         setAllFontsAndStyles();
     }
-//  Erstmal For-Schleife
+    static void initJFormattedTextFieldTexts(){
+        putStringsInArray();
+        for (int i = 0; i < 24 ; i++){
+            Areas[i].setText(Strings[i]);
+        }
+        putArrayInStrings();
+    }
+
     static void putAreasInArray(){
-        Areas=new JTextArea[100];
+        Areas=new JFormattedTextField[100];
         Areas[0]=AAT;
         Areas[1]=ABT;
         Areas[2]=ACT;
@@ -293,12 +311,11 @@ public class UI {
     }
     static void setAllFontsAndStyles(){
         for (int i = 0; i<24;i++) {
-            Areas[i].setFont(new Font("Segoe Script",0, 65));
-            Areas[i].setLineWrap(true);
-            Areas[i].setWrapStyleWord(true);
+            Areas[i].setFont(new Font("Segoe Script",0, 45));
             if (i%3==0) Areas[i].setBorder(noBorder);
             if (i%3==1) Areas[i].setBorder(dBorder);
             if (i%3==2) Areas[i].setBorder(plusBorder);
+            Areas[i].setColumns(2);
         }
     }
 
@@ -447,7 +464,7 @@ public class UI {
         cwepthree.setText(wepthree.getText());
         cwepfour.setText(wepfour.getText());
     }
-    public static String getsafeText(JTextArea j){
+    public static String getsafeText(JFormattedTextField j){
         if (j.getText().equals("")) return "0";
         else return j.getText();
     }
