@@ -15,13 +15,20 @@ import java.io.IOException;
 
 public class Spellbook {
     static JPanel top, outer;
+    static JScrollPane center;
     static JTextField searchbar;
     static JButton searchbutton, SAVEbutton;
+    static JLabel result;
+    static MenuComponent[] Spells;
 
     public static void init() throws IOException {
         outer = new JPanel();
+        center=new JScrollPane();
+        center.setLayout(new ScrollPaneLayout());
         outer.setLayout(new BorderLayout());
+        outer.add(center,BorderLayout.CENTER);
         outer.setOpaque(true);
+        addATonOfSpells();
         top = new JPanel(new FlowLayout());
         searchbar = new JTextField();
         searchbar.setPreferredSize(new Dimension(400, 50));
@@ -34,14 +41,21 @@ public class Spellbook {
         top.add(SAVEbutton);
         outer.add(top,BorderLayout.NORTH);
         SAVEbutton.setPreferredSize(new Dimension(150, 50));
-        outer.add(searchbar,BorderLayout.CENTER);
+        result=new JLabel("Next Result will appear here");
+    }
+    static void addATonOfSpells(){
+        Spells = new MenuComponent[100];
+        for (int i=0;i<100;i++){
+            Spells[i]=new MenuComponent(""+i);
+            center.add(Spells[i].main);
+        }
     }
 }
 class MenuComponent{
-   static JPanel main;
-   static JButton open,roll;
-   static JLabel name;
-   static AListener listen;
+   JPanel main;
+   JButton open,roll;
+   JLabel name;
+   AListener listen;
    MenuComponent(String pname) {
         main=new JPanel(new FlowLayout());
         open=new JButton("Edit");
@@ -50,6 +64,9 @@ class MenuComponent{
         open.addActionListener(listen);
         roll.addActionListener(listen);
         name=new JLabel(pname);
+        main.add(open);
+        main.add(name);
+        main.add(roll);
     }
     private void setText(String pname){
         name.setText(pname);

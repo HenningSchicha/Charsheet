@@ -36,7 +36,7 @@ public class UI {
         listen=new AListener();
         initPanels();
         initFormat();
-        initJTextAreas();
+        initWeaponJTextAreas();
         addWeapons();
         createTitleBorders();
         initFrame();
@@ -56,7 +56,7 @@ public class UI {
         numfom.setAllowsInvalid(true);
     }
 
-    static void initJTextAreas(){
+    static void initWeaponJTextAreas(){
         wepone=new JTextArea(weapone);
         weptwo=new JTextArea(weaptwo);
         wepthree=new JTextArea(weapthree);
