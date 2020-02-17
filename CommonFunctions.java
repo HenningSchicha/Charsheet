@@ -14,6 +14,7 @@ public class CommonFunctions {
     }
     public static int[] SplitDiceString(String Dice){
         Dice=Dice.replaceAll("\\s","");
+        Dice=Dice.replaceAll("-","+-");
         String[] Split;
         String[] more;
         int[] Result=new int[3];

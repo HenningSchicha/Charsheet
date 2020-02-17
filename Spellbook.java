@@ -17,9 +17,11 @@ public class Spellbook {
     static AListener listen;
     static final int SpellNo = 255;
     static int head,screenFittingSpells,componentHeight,currentmenu;
+    static Searching searchListener;
 
     public static void init() throws IOException {
         head=0;
+        searchListener=new Searching();
         currentmenu=-1;
         componentHeight=35;
         listen=new AListener();
@@ -55,8 +57,21 @@ public class Spellbook {
         next.addActionListener(listen);
         previous.addActionListener(listen);
         SAVEbutton.addActionListener(listen);
+        searchbar.addKeyListener(searchListener);
         addATonOfSpells();
         changePage();
+    }
+    static void search(JTextField input){
+        String temp = input.getText();
+        if (temp.equals("")) changePage();
+        else{
+        for (int i = 0; i<SpellNo;i++) {
+            if (Spells[i].name.toLowerCase().contains(temp.toLowerCase())) {
+                components[i].main.setVisible(true);
+            }
+            else components[i].main.setVisible(false);
+        }
+        }
     }
     static void roll(String input){
         int[] results = CommonFunctions.RollDice(input);
@@ -67,6 +82,7 @@ public class Spellbook {
         Result=Result.stripTrailing();
         Result=Result+")";
         Result=Result+" + "+CommonFunctions.SplitDiceString(input)[CommonFunctions.SplitDiceString(input).length-1];
+        Result=Result+" with "+Spells[currentmenu].name;
         result.setText(Result);
     }
     static void openMenu(int current){
@@ -89,7 +105,7 @@ public class Spellbook {
     static void addATonOfSpells(){
         Spells = new Spell[SpellNo];
         for (int i = 0; i < SpellNo; i++){
-            Spells[i]=new Spell("A New Spell","0","New Spell"+(i+1),"1","None","0","0d0+0",false,false);
+            Spells[i]=new Spell("A New Spelldescription","0","New Spell "+(i+1),"1","None","0","0d0+0",false,false);
         }
     }
     static void goNext(){
@@ -187,19 +203,19 @@ class SpellMenu{
         listen=new AListener();
         save.addActionListener(listen);
         range=new JTextField("");
-        range.setBorder(tborder("range"));
+        range.setBorder(tborder("Range"));
         name=new JTextField("");
-        name.setBorder(tborder("name"));
+        name.setBorder(tborder("Name"));
         level=new JTextField("");
-        level.setBorder(tborder("level"));
+        level.setBorder(tborder("Level"));
         school=new JTextField("");
-        school.setBorder(tborder("school"));
+        school.setBorder(tborder("School"));
         speed=new JTextField("");
-        speed.setBorder(tborder("speed"));
+        speed.setBorder(tborder("Speed"));
         damage=new JTextField("");
-        damage.setBorder(tborder("damage"));
+        damage.setBorder(tborder("Damage"));
         desc=new JTextArea("");
-        desc.setBorder(tborder("description"));
+        desc.setBorder(tborder("Description"));
         ritual=new JCheckBox("Ritual?");
         concentration=new JCheckBox("Concentration?");
         submain.add(name);
