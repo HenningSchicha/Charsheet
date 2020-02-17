@@ -1,38 +1,44 @@
 package com.company;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 
 public class Spellbook {
-    static JPanel top, outer;
-    static JScrollPane center;
+    static JPanel top, outer, center;
     static JTextField searchbar;
-    static JButton searchbutton, SAVEbutton;
+    static JButton searchbutton, SAVEbutton, next, previous, currentsave;
     static JLabel result;
-    static MenuComponent[] Spells;
+    static MenuComponent[] components;
+    static Spell[] Spells;
+    static SpellMenu actualMenu;
+    static AListener listen;
+    static final int SpellNo = 255;
+    static int head,screenFittingSpells,componentHeight,currentmenu;
 
     public static void init() throws IOException {
+        head=0;
+        currentmenu=-1;
+        componentHeight=35;
+        listen=new AListener();
+        screenFittingSpells=10;
         outer = new JPanel();
-        center=new JScrollPane();
-        center.setLayout(new ScrollPaneLayout());
+        center=new JPanel();
+        center.setLayout(new FlowLayout());
+        center.setPreferredSize(new Dimension(540,(componentHeight+18)*screenFittingSpells));
         outer.setLayout(new BorderLayout());
         outer.add(center,BorderLayout.CENTER);
         outer.setOpaque(true);
-        addATonOfSpells();
+        addATonOfComponents();
         top = new JPanel(new FlowLayout());
         searchbar = new JTextField();
+        previous= new JButton("", new ImageIcon("src/com/company/leftArrow.png"));
+        top.add(previous);
         searchbar.setPreferredSize(new Dimension(400, 50));
         top.add(searchbar);
+        next = new JButton("",new ImageIcon("src/com/company/rightArrow.png"));
         searchbutton = new JButton("", new ImageIcon("src/com/company/searchMonocle.jpg"));
         top.add(searchbutton);
         searchbutton.setMargin(new Insets(0, 0, 0, 0));
@@ -42,12 +48,78 @@ public class Spellbook {
         outer.add(top,BorderLayout.NORTH);
         SAVEbutton.setPreferredSize(new Dimension(150, 50));
         result=new JLabel("Next Result will appear here");
+        outer.add(result,BorderLayout.SOUTH);
+        top.add(next);
+        next.setMargin(new Insets(0,0,0,0));
+        previous.setMargin(new Insets(0,0,0,0));
+        next.addActionListener(listen);
+        previous.addActionListener(listen);
+        SAVEbutton.addActionListener(listen);
+        addATonOfSpells();
+        changePage();
+    }
+    static void roll(String input){
+        int[] results = CommonFunctions.RollDice(input);
+        String Result="You rolled "+results[0]+" (";
+        for(int i=1;i<results.length;i++){
+            Result=Result+results[i]+" ";
+        }
+        Result=Result.stripTrailing();
+        Result=Result+")";
+        Result=Result+" + "+CommonFunctions.SplitDiceString(input)[CommonFunctions.SplitDiceString(input).length-1];
+        result.setText(Result);
+    }
+    static void openMenu(int current){
+        for (int i = 0; i < SpellNo; i++){
+            components[i].main.setVisible(false);
+        }
+        SpellMenu menu= new SpellMenu();
+        menu.fillFromSpell(Spells[current]);
+        center.add(menu.main);
+        currentsave=menu.save;
+        currentmenu=current;
+        actualMenu=menu;
+    }
+    static void closeMenu(int current,boolean fromMenu){
+        actualMenu.main.setVisible(false);
+        changePage();
+        if (fromMenu)actualMenu.saveToSpell(Spells[current]);
+        components[current].setText(actualMenu.name.getText());
     }
     static void addATonOfSpells(){
-        Spells = new MenuComponent[100];
-        for (int i=0;i<100;i++){
-            Spells[i]=new MenuComponent(""+i);
-            center.add(Spells[i].main);
+        Spells = new Spell[SpellNo];
+        for (int i = 0; i < SpellNo; i++){
+            Spells[i]=new Spell("A New Spell","0","New Spell"+(i+1),"1","None","0","0d0+0",false,false);
+        }
+    }
+    static void goNext(){
+        if (!(currentmenu==-1)) closeMenu(currentmenu, false);
+        if (!(head+screenFittingSpells>SpellNo)){
+            head=head+screenFittingSpells;
+        }
+        changePage();
+    }
+    static void goPrevious(){
+        if (!(currentmenu==-1)) closeMenu(currentmenu, false);
+        if (!(head==0)){
+            head=head-screenFittingSpells;
+        }
+        changePage();
+
+    }
+    static void changePage(){
+        for (int i = 0; i < SpellNo; i++){
+            components[i].main.setVisible(false);
+        }
+        for (int i = head;i <(head+screenFittingSpells);i++){
+            components[i].main.setVisible(true);
+        }
+    }
+    static void addATonOfComponents(){
+        components = new MenuComponent[SpellNo];
+        for (int i=0;i<SpellNo;i++){
+            components[i]=new MenuComponent("New Spell "+(i+1));
+            center.add(components[i].main);
         }
     }
 }
@@ -58,24 +130,29 @@ class MenuComponent{
    AListener listen;
    MenuComponent(String pname) {
         main=new JPanel(new FlowLayout());
-        open=new JButton("Edit");
+        open=new JButton("View");
         roll=new JButton("Roll");
         listen=new AListener();
+        main.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         open.addActionListener(listen);
         roll.addActionListener(listen);
         name=new JLabel(pname);
+        name.setPreferredSize(new Dimension(400,Spellbook.componentHeight));
+        open.setPreferredSize(new Dimension(70,Spellbook.componentHeight));
+        roll.setPreferredSize(new Dimension(70,Spellbook.componentHeight));
         main.add(open);
         main.add(name);
         main.add(roll);
     }
-    private void setText(String pname){
+    void setText(String pname){
         name.setText(pname);
     }
+
 }
 
 class Spell{
-   static String desc,range,name,level,school,speed,damage;
-   static Boolean ritual,concentration;
+    String desc,range,name,level,school,speed,damage;
+    Boolean ritual,concentration;
     Spell(String pdesc, String prange, String pname, String plevel, String pschool, String pspeed, String pdamage, Boolean pritual, Boolean pconcentration){
         if (pdesc=="") desc="No Description"; else desc=pdesc;
         if (prange=="") range="Special";else range=prange;
@@ -87,23 +164,24 @@ class Spell{
         ritual=pritual;
         concentration=pconcentration;
     }
-   static Spell defaultSpell(){
+    Spell defaultSpell(){
         return new Spell("","","","","","","",false,false);
     }
-   static private int[] rolldmg(){
+    private int[] rolldmg(){
         return CommonFunctions.RollDice(damage);
     }
 }
 class SpellMenu{
-   static JPanel main;
-   static Border b;
-   static JTextField range,name,level,school,speed,damage;
-   static JTextArea desc;
-   static JCheckBox ritual,concentration;
-   static JButton save;
-   static AListener listen;
-    private SpellMenu(){
-        main=new JPanel(new FlowLayout());
+    JPanel main,submain;
+    Border b;
+    JTextField range,name,level,school,speed,damage;
+    JTextArea desc;
+    JCheckBox ritual,concentration;
+    JButton save;
+    AListener listen;
+    SpellMenu(){
+        main= new JPanel(new FlowLayout());
+        submain=new JPanel(new GridLayout(10,1));
         b=BorderFactory.createLineBorder(Color.BLACK);
         save=new JButton("Return");
         listen=new AListener();
@@ -124,17 +202,18 @@ class SpellMenu{
         desc.setBorder(tborder("description"));
         ritual=new JCheckBox("Ritual?");
         concentration=new JCheckBox("Concentration?");
-        main.add(name);
-        main.add(level);
-        main.add(damage);
-        main.add(school);
-        main.add(speed);
-        main.add(ritual);
-        main.add(concentration);
+        submain.add(name);
+        submain.add(level);
+        submain.add(damage);
+        submain.add(school);
+        submain.add(speed);
+        submain.add(ritual);
+        submain.add(concentration);
+        main.add(submain);
         main.add(desc);
-        main.add(save);
+        submain.add(save);
     }
-  static private void FillFromSpell(Spell filler){
+   void fillFromSpell(Spell filler){
         name.setText(filler.name);
         range.setText(filler.range);
         desc.setText(filler.desc);
@@ -145,7 +224,7 @@ class SpellMenu{
         damage.setText(filler.damage);
         ritual.setSelected(filler.ritual);
     }
-    static private void SaveToSpell(Spell filled){
+     void saveToSpell(Spell filled){
        filled.name=name.getText();
        filled.range=range.getText();
        filled.desc=desc.getText();
@@ -157,11 +236,11 @@ class SpellMenu{
        filled.ritual=ritual.isSelected();
     }
 
-    static private Spell CreateSpell(){
+     Spell CreateSpell(){
         return new Spell(desc.getText(),range.getText(),name.getText(),level.getText(),school.getText(),speed.getText(),damage.getText(),ritual.isSelected(),concentration.isSelected());
     }
 
-    static private CompoundBorder tborder(String title){
+    CompoundBorder tborder(String title){
         var m=BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(title),b);
         return m;
     }

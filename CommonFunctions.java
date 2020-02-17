@@ -3,7 +3,7 @@ package com.company;
 public class CommonFunctions {
     public static int[] RollDice(String dmg){
         int[] dice=SplitDiceString(dmg);
-        int[] res=new int[4];
+        int[] res=new int[dice[0]+1];
         for (int i = 0; i < dice[0]; i++) {
             int a=(int) (Math.random() * (dice[1]) + 1);
             res[i+1]=a;
