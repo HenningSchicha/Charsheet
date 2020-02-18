@@ -18,9 +18,11 @@ public class Spellbook {
     static final int SpellNo = 255;
     static int head,screenFittingSpells,componentHeight,currentmenu;
     static Searching searchListener;
+    static Boolean inMenu;
 
     public static void init() throws IOException {
         head=0;
+        inMenu=false;
         searchListener=new Searching();
         currentmenu=-1;
         componentHeight=35;
@@ -46,7 +48,7 @@ public class Spellbook {
         searchbutton.setMargin(new Insets(0, 0, 0, 0));
         searchbutton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         SAVEbutton = new JButton("SAVEEE");
-        top.add(SAVEbutton);
+        //top.add(SAVEbutton);
         outer.add(top,BorderLayout.NORTH);
         SAVEbutton.setPreferredSize(new Dimension(150, 50));
         result=new JLabel("Next Result will appear here");
@@ -62,14 +64,15 @@ public class Spellbook {
         changePage();
     }
     static void search(JTextField input){
+        if (!inMenu){
         String temp = input.getText();
         if (temp.equals("")) changePage();
-        else{
-        for (int i = 0; i<SpellNo;i++) {
-            if (Spells[i].name.toLowerCase().contains(temp.toLowerCase())) {
-                components[i].main.setVisible(true);
+        else {
+            for (int i = 0; i < SpellNo; i++) {
+                if (Spells[i].name.toLowerCase().contains(temp.toLowerCase())) {
+                    components[i].main.setVisible(true);
+                } else components[i].main.setVisible(false);
             }
-            else components[i].main.setVisible(false);
         }
         }
     }
@@ -89,6 +92,7 @@ public class Spellbook {
         for (int i = 0; i < SpellNo; i++){
             components[i].main.setVisible(false);
         }
+        inMenu=true;
         SpellMenu menu= new SpellMenu();
         menu.fillFromSpell(Spells[current]);
         center.add(menu.main);
@@ -101,6 +105,7 @@ public class Spellbook {
         changePage();
         if (fromMenu)actualMenu.saveToSpell(Spells[current]);
         components[current].setText(actualMenu.name.getText());
+        inMenu=false;
     }
     static void addATonOfSpells(){
         Spells = new Spell[SpellNo];
@@ -109,25 +114,28 @@ public class Spellbook {
         }
     }
     static void goNext(){
-        if (!(currentmenu==-1)) closeMenu(currentmenu, false);
-        if (!(head+screenFittingSpells>SpellNo)){
-            head=head+screenFittingSpells;
+        if (!inMenu) {
+            if (!(currentmenu == -1)) closeMenu(currentmenu, false);
+            if (!(head + screenFittingSpells > SpellNo)) {
+                head = head + screenFittingSpells;
+            }
+            changePage();
         }
-        changePage();
     }
     static void goPrevious(){
-        if (!(currentmenu==-1)) closeMenu(currentmenu, false);
-        if (!(head==0)){
-            head=head-screenFittingSpells;
+        if(!inMenu) {
+            if (!(currentmenu == -1)) closeMenu(currentmenu, false);
+            if (!(head == 0)) {
+                head = head - screenFittingSpells;
+            }
+            changePage();
         }
-        changePage();
-
     }
     static void changePage(){
-        for (int i = 0; i < SpellNo; i++){
+        for (int i = 0; i < (SpellNo); i++){
             components[i].main.setVisible(false);
         }
-        for (int i = head;i <(head+screenFittingSpells);i++){
+        for (int i = head;i <(head+screenFittingSpells)&&i<SpellNo;i++){
             components[i].main.setVisible(true);
         }
     }
@@ -176,7 +184,7 @@ class Spell{
         if (plevel=="") level="1"; else level=plevel;
         if (pschool=="") school="General magic";else school=pschool;
         if (pspeed=="") speed="0";else speed=pspeed;
-        if (pdamage=="") damage="0"; else damage=pdamage;
+        if (pdamage=="") damage="0d0+0"; else damage=pdamage;
         ritual=pritual;
         concentration=pconcentration;
     }
@@ -188,6 +196,7 @@ class Spell{
     }
 }
 class SpellMenu{
+    JComboBox farbwahl;
     JPanel main,submain;
     Border b;
     JTextField range,name,level,school,speed,damage;
@@ -196,8 +205,10 @@ class SpellMenu{
     JButton save;
     AListener listen;
     SpellMenu(){
+        String[] farben={"Red","Blue","Yellow","Green","Gold","Silver","Bronze",};
         main= new JPanel(new FlowLayout());
         submain=new JPanel(new GridLayout(10,1));
+        farbwahl=new JComboBox(farben);
         b=BorderFactory.createLineBorder(Color.BLACK);
         save=new JButton("Return");
         listen=new AListener();
@@ -227,6 +238,7 @@ class SpellMenu{
         submain.add(concentration);
         main.add(submain);
         main.add(desc);
+        submain.add(farbwahl);
         submain.add(save);
     }
    void fillFromSpell(Spell filler){

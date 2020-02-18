@@ -9,6 +9,7 @@ public class AListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println("YEP COCK");
+        Idle.click();
         if (e.getSource()==UI.saveAttacks){
             UI.saveAttacks();
         }
