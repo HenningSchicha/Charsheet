@@ -1,5 +1,7 @@
 package com.company;
 
+import javax.swing.*;
+
 public class CommonFunctions {
     public static int[] RollDice(String dmg){
         int[] dice=SplitDiceString(dmg);
@@ -11,6 +13,9 @@ public class CommonFunctions {
         }
         res[0] = res[0] + dice[2];
         return res;
+    }
+    public static void ComboBoxSelfColor(JComboBox JCB){
+        JCB.setBackground(Spellbook.getColorFromComboColor((String) JCB.getSelectedItem()));
     }
     public static int[] SplitDiceString(String Dice){
         Dice=Dice.replaceAll("\\s","");

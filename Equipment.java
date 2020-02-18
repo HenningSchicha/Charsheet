@@ -7,9 +7,9 @@ import java.awt.*;
 import java.text.NumberFormat;
 
 public class Equipment {
+    static Weightcalcing wait;
     static AListener listen;
     static String sBody,sOneBag,sTwoBag = "",sWeight,sBodyWeight,sOneBagWeight,sTwoBagWeight,sGold,sSilver,sCopper;
-    static JButton saveEquip;
     static JPanel outer,inner,grid,pOuter,pInner;
     static JTextArea tBody,tOneBag,tTwoBag,tWeight,tGold,tSilver,tCopper;
     static JFormattedTextField tBodyWeight,tOneBagWeight,tTwoBagWeight;
@@ -17,7 +17,7 @@ public class Equipment {
     static NumberFormatter numfom=new NumberFormatter(format);
     public static void init(){
         if (sTwoBag.equals("")) sTwoBag="\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n                                                                                    ";
-        saveEquip=new JButton("Save all");
+        wait= new Weightcalcing();
         outer=new JPanel(new BorderLayout());
         inner=new JPanel(new BorderLayout());
         grid=new JPanel(new GridLayout(1,3,2,5));
@@ -46,6 +46,9 @@ public class Equipment {
         tOneBagWeight=new JFormattedTextField(numfom);
         tOneBagWeight.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK),"Weight",TitledBorder.TOP,TitledBorder.TOP));
         tTwoBagWeight=new JFormattedTextField(numfom);
+        tBodyWeight.addKeyListener(wait);
+        tOneBagWeight.addKeyListener(wait);
+        tTwoBagWeight.addKeyListener(wait);
         tOneBagWeight.setText(sOneBagWeight);
         tBodyWeight.setText(sBodyWeight);
         tTwoBagWeight.setText(sTwoBagWeight);
@@ -61,7 +64,6 @@ public class Equipment {
         tCopper=new JTextArea(sCopper);
         tCopper.setBackground(new Color(184,115,51));
         tCopper.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK),"Copper",TitledBorder.TOP,TitledBorder.TOP));
-        saveEquip.addActionListener(listen);
         tWeight.setEditable(false);
         grid.add(tBody);
         grid.add(tOneBag);
@@ -70,7 +72,6 @@ public class Equipment {
         pOuter.add(tGold);
         pOuter.add(tSilver);
         pOuter.add(tCopper);
-        pOuter.add(saveEquip);
         pInner.add(tBodyWeight);
         pInner.add(tOneBagWeight);
         pInner.add(tTwoBagWeight);

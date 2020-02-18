@@ -10,9 +10,6 @@ public class AListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         System.out.println("YEP COCK");
         Idle.click();
-        if (e.getSource()==UI.saveAttacks){
-            UI.saveAttacks();
-        }
         if(e.getSource()==UI.onetohit){
             UI.saveAttacks();
             UI.RollAttack(UI.AA,UI.AB,UI.AC,UI.weapone,hittext,false);
@@ -85,9 +82,6 @@ public class AListener implements ActionListener {
             UI.collapseAll();
             UI.PSpellbook.setVisible(true);
         }
-        if(e.getSource()==Equipment.saveEquip){
-            Equipment.save();
-        }
         if(e.getSource()==Spellbook.next){
             Spellbook.goNext();
         }
@@ -104,6 +98,9 @@ public class AListener implements ActionListener {
         }
         if(e.getSource()==Spellbook.currentsave){
             Spellbook.closeMenu(Spellbook.currentmenu,true);
+        }
+        if (e.getSource()==Spellbook.actualMenu.farbwahl){
+            CommonFunctions.ComboBoxSelfColor(Spellbook.actualMenu.farbwahl);
         }
     }
 }

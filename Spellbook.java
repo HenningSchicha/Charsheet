@@ -62,6 +62,7 @@ public class Spellbook {
         SAVEbutton.addActionListener(listen);
         searchbar.addKeyListener(searchListener);
         addATonOfSpells();
+        actualMenu=new SpellMenu();
         changePage();
     }
     static void search(JTextField input){
@@ -103,7 +104,6 @@ public class Spellbook {
         actualMenu=menu;
     }
     static Color getColorFromComboColor(String combo){
-        String temp;
         switch(combo) {
             case "Red": return Color.RED;
             case "Blue": return Color.BLUE;
@@ -118,10 +118,8 @@ public class Spellbook {
     }
     static void closeMenu(int current,boolean fromMenu){
         Color temp=getColorFromComboColor((String) Objects.requireNonNull(actualMenu.farbwahl.getSelectedItem()));
-        if(!(temp==Color.WHITE)) {
-            components[current].setColor(temp);
-            components[current].colorStr = (String) Objects.requireNonNull(actualMenu.farbwahl.getSelectedItem());
-        }
+        components[current].setColor(temp);
+        components[current].colorStr = (String) Objects.requireNonNull(actualMenu.farbwahl.getSelectedItem());
         actualMenu.main.setVisible(false);
         changePage();
         if (fromMenu)actualMenu.saveToSpell(Spells[current]);
@@ -131,7 +129,7 @@ public class Spellbook {
     static void addATonOfSpells(){
         Spells = new Spell[SpellNo];
         for (int i = 0; i < SpellNo; i++){
-            Spells[i]=new Spell("A New Spelldescription","0","New Spell "+(i+1),"1","None","0","0d0+0",false,false);
+            Spells[i]=new Spell("A New Spelldescription","0","New Spell "+(i+1),"1","None","0","0d0+0",false,false,false);
         }
     }
     static void goNext(){
@@ -191,6 +189,7 @@ class MenuComponent{
         main.add(open);
         main.add(name);
         main.add(roll);
+        setColor(Color.WHITE);
     }
     void setText(String pname){
         name.setText(pname);
@@ -206,8 +205,8 @@ class MenuComponent{
 
 class Spell{
     String desc,range,name,level,school,speed,damage;
-    Boolean ritual,concentration;
-    Spell(String pdesc, String prange, String pname, String plevel, String pschool, String pspeed, String pdamage, Boolean pritual, Boolean pconcentration){
+    Boolean ritual,concentration,favorite;
+    Spell(String pdesc, String prange, String pname, String plevel, String pschool, String pspeed, String pdamage, Boolean pritual, Boolean pconcentration, Boolean pfavorite){
         if (pdesc=="") desc="No Description"; else desc=pdesc;
         if (prange=="") range="Special";else range=prange;
         if (pname=="") name="Magic"; else name=pname;
@@ -217,9 +216,10 @@ class Spell{
         if (pdamage=="") damage="0d0+0"; else damage=pdamage;
         ritual=pritual;
         concentration=pconcentration;
+        favorite=pfavorite;
     }
     Spell defaultSpell(){
-        return new Spell("","","","","","","",false,false);
+        return new Spell("","","","","","","",false,false,false);
     }
     private int[] rolldmg(){
         return CommonFunctions.RollDice(damage);
@@ -231,7 +231,7 @@ class SpellMenu{
     Border b;
     JTextField range,name,level,school,speed,damage;
     JTextArea desc;
-    JCheckBox ritual,concentration;
+    JCheckBox ritual,concentration,favorite;
     JButton save;
     AListener listen;
     SpellMenu(){
@@ -239,6 +239,7 @@ class SpellMenu{
         main= new JPanel(new FlowLayout());
         submain=new JPanel(new GridLayout(10,1));
         farbwahl=new JComboBox(farben);
+        favorite=new JCheckBox("Set as Favorite");
         b=BorderFactory.createLineBorder(Color.BLACK);
         save=new JButton("Return");
         listen=new AListener();
@@ -257,8 +258,11 @@ class SpellMenu{
         damage.setBorder(tborder("Damage"));
         desc=new JTextArea("");
         desc.setBorder(tborder("Description"));
+        desc.setPreferredSize(new Dimension(200,400));
+        desc.setLineWrap(true);
         ritual=new JCheckBox("Ritual?");
         concentration=new JCheckBox("Concentration?");
+        farbwahl.addActionListener(listen);
         submain.add(name);
         submain.add(level);
         submain.add(damage);
@@ -266,6 +270,7 @@ class SpellMenu{
         submain.add(speed);
         submain.add(ritual);
         submain.add(concentration);
+        submain.add(favorite);
         main.add(submain);
         main.add(desc);
         submain.add(farbwahl);
@@ -281,6 +286,7 @@ class SpellMenu{
         speed.setText(filler.speed);
         damage.setText(filler.damage);
         ritual.setSelected(filler.ritual);
+        favorite.setSelected(filler.favorite);
     }
      void saveToSpell(Spell filled){
        filled.name=name.getText();
@@ -292,10 +298,11 @@ class SpellMenu{
        filled.speed=speed.getText();
        filled.damage=damage.getText();
        filled.ritual=ritual.isSelected();
+       filled.favorite=favorite.isSelected();
     }
 
      Spell CreateSpell(){
-        return new Spell(desc.getText(),range.getText(),name.getText(),level.getText(),school.getText(),speed.getText(),damage.getText(),ritual.isSelected(),concentration.isSelected());
+        return new Spell(desc.getText(),range.getText(),name.getText(),level.getText(),school.getText(),speed.getText(),damage.getText(),ritual.isSelected(),concentration.isSelected(),favorite.isSelected());
     }
 
     CompoundBorder tborder(String title){

@@ -15,8 +15,18 @@ public class UI {
     static JButton BAttacks, BEquip, BRolls, BStats,BIdle,BSpellbook;
     static JLabel LName,LClass,LLvl;
     static String charname,classname,lvl;
-
-    static JButton saveAttacks, onetohit, oneattack, twotohit,twoattack,threetohit,threeattack,fourtohit,fourattack,onecrit,twocrit,threecrit,fourcrit;
+    static JButton onetohit;
+    static JButton oneattack;
+    static JButton twotohit;
+    static JButton twoattack;
+    static JButton threetohit;
+    static JButton threeattack;
+    static JButton fourtohit;
+    static JButton fourattack;
+    static JButton onecrit;
+    static JButton twocrit;
+    static JButton threecrit;
+    static JButton fourcrit;
     static String AA,AB,AC,AD,AE,AF,AG,AH,AI,AJ,AK,AL,AM,AN,AO,AP,AQ,AR,AS,AT,AU,AV,AW,AX,weapone,weaptwo,weapthree,weapfour;
     static JTextArea wepone,weptwo,wepthree,wepfour,cwepone,cweptwo,cwepthree,cwepfour;
     static JFormattedTextField AAT,ABT,ACT,ADT,AET,AFT,AGT,AHT,AIT,AJT,AKT,ALT,AMT,ANT,AOT,APT,AQT,ART,AST,ATT,AUT,AVT,AWT,AXT;
@@ -46,7 +56,6 @@ public class UI {
         addActionListeners();
         addGridComponents();
         initLabels();
-        TopA.add(saveAttacks);
         finalizeMenuButtons();
         createJPanelStructure();
         setDefaultVisibilities();
@@ -380,7 +389,6 @@ public class UI {
         fourcrit = new JButton("Crit");
         putButtonsInArray();
         styleButtons();
-        saveAttacks=new JButton("Save all");
     }
     static void styleButtons(){
         for(int i=0;i<Buttons.length;i++){
@@ -404,7 +412,6 @@ public class UI {
         Buttons[11]=fourcrit;
     }
     static void addActionListeners() {
-        saveAttacks.addActionListener(listen);
         onecrit.addActionListener(listen);
         twocrit.addActionListener(listen);
         threecrit.addActionListener(listen);
