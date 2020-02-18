@@ -15,11 +15,11 @@ public class Searching implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
-
+        Spellbook.search((JTextField) keyEvent.getSource());
     }
 
     @Override
     public void keyReleased(KeyEvent keyEvent) {
-
+        Spellbook.search((JTextField) keyEvent.getSource());
     }
 }

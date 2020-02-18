@@ -99,7 +99,7 @@ public class AListener implements ActionListener {
                 Spellbook.openMenu(i);
             }
             if (e.getSource()==Spellbook.components[i].roll){
-                Spellbook.roll(Spellbook.Spells[i].damage);
+                Spellbook.roll(Spellbook.Spells[i].damage,i);
             }
         }
         if(e.getSource()==Spellbook.currentsave){

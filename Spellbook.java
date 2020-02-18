@@ -4,6 +4,7 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import java.awt.*;
 import java.io.IOException;
+import java.util.Objects;
 
 
 public class Spellbook {
@@ -76,7 +77,7 @@ public class Spellbook {
         }
         }
     }
-    static void roll(String input){
+    static void roll(String input,int curr){
         int[] results = CommonFunctions.RollDice(input);
         String Result="You rolled "+results[0]+" (";
         for(int i=1;i<results.length;i++){
@@ -85,7 +86,7 @@ public class Spellbook {
         Result=Result.stripTrailing();
         Result=Result+")";
         Result=Result+" + "+CommonFunctions.SplitDiceString(input)[CommonFunctions.SplitDiceString(input).length-1];
-        Result=Result+" with "+Spells[currentmenu].name;
+        Result=Result+" with "+Spells[curr].name;
         result.setText(Result);
     }
     static void openMenu(int current){
@@ -95,12 +96,32 @@ public class Spellbook {
         inMenu=true;
         SpellMenu menu= new SpellMenu();
         menu.fillFromSpell(Spells[current]);
+        menu.farbwahl.setSelectedItem(components[current].colorStr);
         center.add(menu.main);
         currentsave=menu.save;
         currentmenu=current;
         actualMenu=menu;
     }
+    static Color getColorFromComboColor(String combo){
+        String temp;
+        switch(combo) {
+            case "Red": return Color.RED;
+            case "Blue": return Color.BLUE;
+            case "Yellow": return Color.YELLOW;
+            case "Green": return Color.GREEN;
+            case "Default": return Color.WHITE;
+            case "Silver": return new Color(129,129,129);
+            case "Gold": return new Color(212,175,55);
+            case "Copper": return new Color(184,115,51);
+        }
+        return Color.WHITE;
+    }
     static void closeMenu(int current,boolean fromMenu){
+        Color temp=getColorFromComboColor((String) Objects.requireNonNull(actualMenu.farbwahl.getSelectedItem()));
+        if(!(temp==Color.WHITE)) {
+            components[current].setColor(temp);
+            components[current].colorStr = (String) Objects.requireNonNull(actualMenu.farbwahl.getSelectedItem());
+        }
         actualMenu.main.setVisible(false);
         changePage();
         if (fromMenu)actualMenu.saveToSpell(Spells[current]);
@@ -149,6 +170,8 @@ public class Spellbook {
 }
 class MenuComponent{
    JPanel main;
+   Color mycolor;
+   String colorStr;
    JButton open,roll;
    JLabel name;
    AListener listen;
@@ -156,6 +179,7 @@ class MenuComponent{
         main=new JPanel(new FlowLayout());
         open=new JButton("View");
         roll=new JButton("Roll");
+        colorStr="Default";
         listen=new AListener();
         main.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         open.addActionListener(listen);
@@ -171,7 +195,13 @@ class MenuComponent{
     void setText(String pname){
         name.setText(pname);
     }
-
+    void setColor(Color pColor){
+       mycolor=pColor;
+       main.setBackground(mycolor);
+    }
+    Color getColor(){
+       return mycolor;
+    }
 }
 
 class Spell{
@@ -205,7 +235,7 @@ class SpellMenu{
     JButton save;
     AListener listen;
     SpellMenu(){
-        String[] farben={"Red","Blue","Yellow","Green","Gold","Silver","Bronze",};
+        String[] farben={"Default","Red","Blue","Yellow","Green","Gold","Silver","Copper"};
         main= new JPanel(new FlowLayout());
         submain=new JPanel(new GridLayout(10,1));
         farbwahl=new JComboBox(farben);
