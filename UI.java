@@ -10,6 +10,7 @@ import java.text.NumberFormat;
 
 public class UI {
     static AListener listen;
+    static Searching search;
     static JFrame frame;
     static JPanel main, PTop,PLabels,PMenu,PAttacks,PEquip,PRolls,PStats,PSpellbook,PMain;
     static JButton BAttacks, BEquip, BRolls, BStats,BIdle,BSpellbook;
@@ -44,6 +45,7 @@ public class UI {
         Equipment.init();
         Spellbook.init();
         listen=new AListener();
+        search=new Searching();
         initPanels();
         initFormat();
         initWeaponJTextAreas();
@@ -74,6 +76,14 @@ public class UI {
         cweptwo=new JTextArea(weaptwo);
         cwepthree=new JTextArea(weapthree);
         cwepfour=new JTextArea(weapfour);
+        setKeyListeners();
+    }
+    static void setKeyListeners(){
+        wepone.addKeyListener(search);
+        weptwo.addKeyListener(search);
+        wepthree.addKeyListener(search);
+        wepfour.addKeyListener(search);
+
     }
     public static void init(){
         charname="ExName";

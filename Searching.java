@@ -8,18 +8,34 @@ import java.awt.event.KeyListener;
 
 public class Searching implements KeyListener {
 
+
     @Override
-    public void keyTyped(KeyEvent keyEvent) {
-        Spellbook.search((JTextField) keyEvent.getSource());
+    public void keyTyped(KeyEvent k) {
+        if (k.getSource()==Spellbook.searchbar) {
+            Spellbook.search((JTextField) k.getSource());
+        }
+        if ((k.getSource()==UI.wepone)||(k.getSource()==UI.wepfour)||(k.getSource()==UI.wepthree)||(k.getSource()==UI.wepfour)){
+            UI.saveAttacks();
+        }
     }
 
     @Override
-    public void keyPressed(KeyEvent keyEvent) {
-        Spellbook.search((JTextField) keyEvent.getSource());
+    public void keyPressed(KeyEvent k) {
+        if (k.getSource()==Spellbook.searchbar) {
+            Spellbook.search((JTextField) k.getSource());
+        }
+        if ((k.getSource()==UI.wepone)||(k.getSource()==UI.wepfour)||(k.getSource()==UI.wepthree)||(k.getSource()==UI.wepfour)){
+            UI.saveAttacks();
+        }
     }
 
     @Override
-    public void keyReleased(KeyEvent keyEvent) {
-        Spellbook.search((JTextField) keyEvent.getSource());
+    public void keyReleased(KeyEvent k) {
+        if (k.getSource()==Spellbook.searchbar) {
+            Spellbook.search((JTextField) k.getSource());
+        }
+        if ((k.getSource()==UI.wepone)||(k.getSource()==UI.wepfour)||(k.getSource()==UI.wepthree)||(k.getSource()==UI.wepfour)){
+            UI.saveAttacks();
+        }
     }
 }

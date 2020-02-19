@@ -10,7 +10,7 @@ import java.util.Objects;
 public class Spellbook {
     static JPanel top, outer, center;
     static JTextField searchbar;
-    static JButton searchbutton, SAVEbutton, next, previous, currentsave;
+    static JButton searchbutton, next, previous, currentsave;
     static JLabel result;
     static MenuComponent[] components;
     static Spell[] Spells;
@@ -48,10 +48,7 @@ public class Spellbook {
         top.add(searchbutton);
         searchbutton.setMargin(new Insets(0, 0, 0, 0));
         searchbutton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        SAVEbutton = new JButton("SAVEEE");
-        //top.add(SAVEbutton);
         outer.add(top,BorderLayout.NORTH);
-        SAVEbutton.setPreferredSize(new Dimension(150, 50));
         result=new JLabel("Next Result will appear here");
         outer.add(result,BorderLayout.SOUTH);
         top.add(next);
@@ -59,7 +56,6 @@ public class Spellbook {
         previous.setMargin(new Insets(0,0,0,0));
         next.addActionListener(listen);
         previous.addActionListener(listen);
-        SAVEbutton.addActionListener(listen);
         searchbar.addKeyListener(searchListener);
         addATonOfSpells();
         actualMenu=new SpellMenu();
@@ -98,6 +94,7 @@ public class Spellbook {
         SpellMenu menu= new SpellMenu();
         menu.fillFromSpell(Spells[current]);
         menu.farbwahl.setSelectedItem(components[current].colorStr);
+        CommonFunctions.ComboBoxSelfColor(menu.farbwahl);
         center.add(menu.main);
         currentsave=menu.save;
         currentmenu=current;
@@ -120,7 +117,8 @@ public class Spellbook {
         Color temp=getColorFromComboColor((String) Objects.requireNonNull(actualMenu.farbwahl.getSelectedItem()));
         components[current].setColor(temp);
         components[current].colorStr = (String) Objects.requireNonNull(actualMenu.farbwahl.getSelectedItem());
-        actualMenu.main.setVisible(false);
+        //actualMenu.main.setVisible(false);
+        center.remove(actualMenu.main);
         changePage();
         if (fromMenu)actualMenu.saveToSpell(Spells[current]);
         components[current].setText(actualMenu.name.getText());
