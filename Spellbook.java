@@ -1,27 +1,31 @@
 package com.company;
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 
 public class Spellbook {
     static JPanel top, outer, center;
     static JTextField searchbar;
     static JButton searchbutton, next, previous, currentsave;
-    static JLabel result;
+    static JLabel result, nextPlaceHolder, previousPlaceHolder;
     static MenuComponent[] components;
     static Spell[] Spells;
     static SpellMenu actualMenu;
     static AListener listen;
-    static final int SpellNo = 255;
+    static final int SpellNo = 260;
     static int head,screenFittingSpells,componentHeight,currentmenu;
     static Searching searchListener;
     static Boolean inMenu;
+    static Dimension buttondim,xddim;
 
     public static void init() throws IOException {
+        buttondim=new Dimension(51,51);     //width everywhere is WEIRD change with caution!!! should be odd/prime
+        xddim=new Dimension(1,60);
         head=0;
         inMenu=false;
         searchListener=new Searching();
@@ -32,7 +36,7 @@ public class Spellbook {
         outer = new JPanel();
         center=new JPanel();
         center.setLayout(new FlowLayout());
-        center.setPreferredSize(new Dimension(540,(componentHeight+18)*screenFittingSpells));
+        center.setPreferredSize(new Dimension(541,(componentHeight+18)*screenFittingSpells));
         outer.setLayout(new BorderLayout());
         outer.add(center,BorderLayout.CENTER);
         outer.setOpaque(true);
@@ -40,18 +44,28 @@ public class Spellbook {
         top = new JPanel(new FlowLayout());
         searchbar = new JTextField();
         previous= new JButton("", new ImageIcon("src/com/company/leftArrow.png"));
+        previous.setPreferredSize(buttondim);
+        nextPlaceHolder= new JLabel();
+        previousPlaceHolder=new JLabel();
+        previousPlaceHolder.setPreferredSize(buttondim);
+        top.add(previousPlaceHolder);
+        previousPlaceHolder.setVisible(false);
+        nextPlaceHolder.setVisible(false);
         top.add(previous);
-        searchbar.setPreferredSize(new Dimension(400, 50));
+        searchbar.setPreferredSize(new Dimension(401, 50));
         top.add(searchbar);
         next = new JButton("",new ImageIcon("src/com/company/rightArrow.png"));
+        nextPlaceHolder.setPreferredSize(buttondim);
         searchbutton = new JButton("", new ImageIcon("src/com/company/searchMonocle.jpg"));
         top.add(searchbutton);
+        next.setPreferredSize(buttondim);
         searchbutton.setMargin(new Insets(0, 0, 0, 0));
         searchbutton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         outer.add(top,BorderLayout.NORTH);
         result=new JLabel("Next Result will appear here");
         outer.add(result,BorderLayout.SOUTH);
         top.add(next);
+        top.add(nextPlaceHolder);
         next.setMargin(new Insets(0,0,0,0));
         previous.setMargin(new Insets(0,0,0,0));
         next.addActionListener(listen);
@@ -60,6 +74,20 @@ public class Spellbook {
         addATonOfSpells();
         actualMenu=new SpellMenu();
         changePage();
+    }
+    static void removeButtonIfEndOfMenu(){
+        previous.setVisible(true);
+        previousPlaceHolder.setVisible(false);
+        next.setVisible(true);
+        nextPlaceHolder.setVisible(false);
+        if(head==0){
+            previous.setVisible(false);
+            previousPlaceHolder.setVisible(true);
+        }
+        else if (head + screenFittingSpells >= SpellNo) {
+            next.setVisible(false);
+            nextPlaceHolder.setVisible(true);
+        }
     }
     static void search(JTextField input){
         if (!inMenu){
@@ -96,20 +124,34 @@ public class Spellbook {
         menu.farbwahl.setSelectedItem(components[current].colorStr);
         CommonFunctions.ComboBoxSelfColor(menu.farbwahl);
         center.add(menu.main);
+        top.setVisible(false);
+        result.setVisible(false);
         currentsave=menu.save;
         currentmenu=current;
         actualMenu=menu;
     }
     static Color getColorFromComboColor(String combo){
         switch(combo) {
-            case "Red": return Color.RED;
-            case "Blue": return Color.BLUE;
-            case "Yellow": return Color.YELLOW;
-            case "Green": return Color.GREEN;
-            case "Default": return Color.WHITE;
-            case "Silver": return new Color(129,129,129);
-            case "Gold": return new Color(212,175,55);
-            case "Copper": return new Color(184,115,51);
+            case "Ruby":
+                return new Color(237, 83, 83);
+            case "Aquamarine":
+                return new Color(128, 255, 212);
+            case "Honey":
+                return new Color(255,195,110);
+            case "Snake Green":
+                return new Color(0, 141, 76);
+            case "Very Default":
+                return Color.WHITE;
+            case "Silver":
+                return new Color(129, 129, 129);
+            case "Gold":
+                return new Color(212, 175, 55);
+            case "Copper":
+                return new Color(184, 115, 51);
+            case "Lapis":
+                return new Color(38, 97, 156);
+            case "Double Special Surprise":
+                return new Color((int) (Math.random() * 255),(int) (Math.random() * 255),(int) (Math.random() * 255));
         }
         return Color.WHITE;
     }
@@ -119,6 +161,8 @@ public class Spellbook {
         components[current].colorStr = (String) Objects.requireNonNull(actualMenu.farbwahl.getSelectedItem());
         //actualMenu.main.setVisible(false);
         center.remove(actualMenu.main);
+        top.setVisible(true);
+        result.setVisible(true);
         changePage();
         if (fromMenu)actualMenu.saveToSpell(Spells[current]);
         components[current].setText(actualMenu.name.getText());
@@ -149,6 +193,8 @@ public class Spellbook {
         }
     }
     static void changePage(){
+        removeButtonIfEndOfMenu();
+        System.out.println(components[0].main.getAlignmentY());
         for (int i = 0; i < (SpellNo); i++){
             components[i].main.setVisible(false);
         }
@@ -181,7 +227,7 @@ class MenuComponent{
         open.addActionListener(listen);
         roll.addActionListener(listen);
         name=new JLabel(pname);
-        name.setPreferredSize(new Dimension(400,Spellbook.componentHeight));
+        name.setPreferredSize(new Dimension(401,Spellbook.componentHeight));
         open.setPreferredSize(new Dimension(70,Spellbook.componentHeight));
         roll.setPreferredSize(new Dimension(70,Spellbook.componentHeight));
         main.add(open);
@@ -225,17 +271,18 @@ class Spell{
 }
 class SpellMenu{
     JComboBox farbwahl;
-    JPanel main,submain;
+    JPanel main,submain,split;
     Border b;
     JTextField range,name,level,school,speed,damage;
     JTextArea desc;
     JCheckBox ritual,concentration,favorite;
     JButton save;
     AListener listen;
+    Dimension sepPanelSize;
     SpellMenu(){
-        String[] farben={"Default","Red","Blue","Yellow","Green","Gold","Silver","Copper"};
-        main= new JPanel(new FlowLayout());
-        submain=new JPanel(new GridLayout(10,1));
+        String[] farben={"Very Default","Ruby","Aquamarine","Honey","Snake Green","Gold","Silver","Copper","Lapis","Double Special Surprise"};
+        main= new JPanel(new GridLayout(1,2 ));
+        submain=new JPanel(new GridLayout(13,1));
         farbwahl=new JComboBox(farben);
         favorite=new JCheckBox("Set as Favorite");
         b=BorderFactory.createLineBorder(Color.BLACK);
@@ -256,7 +303,6 @@ class SpellMenu{
         damage.setBorder(tborder("Damage"));
         desc=new JTextArea("");
         desc.setBorder(tborder("Description"));
-        desc.setPreferredSize(new Dimension(200,400));
         desc.setLineWrap(true);
         ritual=new JCheckBox("Ritual?");
         concentration=new JCheckBox("Concentration?");
@@ -303,8 +349,8 @@ class SpellMenu{
         return new Spell(desc.getText(),range.getText(),name.getText(),level.getText(),school.getText(),speed.getText(),damage.getText(),ritual.isSelected(),concentration.isSelected(),favorite.isSelected());
     }
 
-    CompoundBorder tborder(String title){
-        var m=BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(title),b);
+    TitledBorder tborder(String title){
+        var m=BorderFactory.createTitledBorder(b,title,TitledBorder.CENTER,TitledBorder.ABOVE_TOP);
         return m;
     }
 }
