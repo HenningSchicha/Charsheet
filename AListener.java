@@ -8,7 +8,6 @@ public class AListener implements ActionListener {
     static String hittext="hits with",dmgtext="hits for",crittext="crits for";
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("YEP COCK");
         Idle.click();
         if(e.getSource()==UI.onetohit){
             UI.saveAttacks();
@@ -101,6 +100,7 @@ public class AListener implements ActionListener {
         }
         if (e.getSource()==Spellbook.actualMenu.farbwahl){
             CommonFunctions.ComboBoxSelfColor(Spellbook.actualMenu.farbwahl);
+            Spellbook.releaseRGBmaybe();
         }
     }
 }

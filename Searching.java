@@ -14,7 +14,7 @@ public class Searching implements KeyListener {
         if (k.getSource()==Spellbook.searchbar) {
             Spellbook.search((JTextField) k.getSource());
         }
-        if ((k.getSource()==UI.wepone)||(k.getSource()==UI.wepfour)||(k.getSource()==UI.wepthree)||(k.getSource()==UI.wepfour)){
+        if ((k.getSource()==UI.wepone)||(k.getSource()==UI.weptwo)||(k.getSource()==UI.wepthree)||(k.getSource()==UI.wepfour)){
             UI.saveAttacks();
         }
     }
@@ -24,7 +24,7 @@ public class Searching implements KeyListener {
         if (k.getSource()==Spellbook.searchbar) {
             Spellbook.search((JTextField) k.getSource());
         }
-        if ((k.getSource()==UI.wepone)||(k.getSource()==UI.wepfour)||(k.getSource()==UI.wepthree)||(k.getSource()==UI.wepfour)){
+        if ((k.getSource()==UI.wepone)||(k.getSource()==UI.weptwo)||(k.getSource()==UI.wepthree)||(k.getSource()==UI.wepfour)){
             UI.saveAttacks();
         }
     }
@@ -34,7 +34,7 @@ public class Searching implements KeyListener {
         if (k.getSource()==Spellbook.searchbar) {
             Spellbook.search((JTextField) k.getSource());
         }
-        if ((k.getSource()==UI.wepone)||(k.getSource()==UI.wepfour)||(k.getSource()==UI.wepthree)||(k.getSource()==UI.wepfour)){
+        if ((k.getSource()==UI.wepone)||(k.getSource()==UI.weptwo)||(k.getSource()==UI.wepthree)||(k.getSource()==UI.wepfour)){
             UI.saveAttacks();
         }
     }

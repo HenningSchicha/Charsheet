@@ -2,8 +2,10 @@ package com.company;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.Objects;
 import java.util.function.Predicate;
 
@@ -89,6 +91,17 @@ public class Spellbook {
             nextPlaceHolder.setVisible(true);
         }
     }
+    static void releaseRGBmaybe(){
+        if ((String) Objects.requireNonNull(actualMenu.farbwahl.getSelectedItem())=="Custom"){
+            releaseRGBdefinite(true);
+        }
+        else releaseRGBdefinite(false);
+    }
+    static void releaseRGBdefinite(Boolean dowe){
+        actualMenu.R.setEditable(dowe);
+        actualMenu.G.setEditable(dowe);
+        actualMenu.B.setEditable(dowe);
+    }
     static void search(JTextField input){
         if (!inMenu){
         String temp = input.getText();
@@ -121,11 +134,14 @@ public class Spellbook {
         inMenu=true;
         SpellMenu menu= new SpellMenu();
         menu.fillFromSpell(Spells[current]);
-        menu.farbwahl.setSelectedItem(components[current].colorStr);
+        if (menu.stringIsColor(components[current].colorStr)) {
+            menu.farbwahl.setSelectedItem(components[current].colorStr);
+        }
         CommonFunctions.ComboBoxSelfColor(menu.farbwahl);
         center.add(menu.main);
         top.setVisible(false);
         result.setVisible(false);
+        actualMenu.setRGBsaves(components[current].myColorRGB);
         currentsave=menu.save;
         currentmenu=current;
         actualMenu=menu;
@@ -137,7 +153,7 @@ public class Spellbook {
             case "Aquamarine":
                 return new Color(128, 255, 212);
             case "Honey":
-                return new Color(255,195,110);
+                return new Color(255, 195, 110);
             case "Snake Green":
                 return new Color(0, 141, 76);
             case "Very Default":
@@ -151,14 +167,27 @@ public class Spellbook {
             case "Lapis":
                 return new Color(38, 97, 156);
             case "Double Special Surprise":
-                return new Color((int) (Math.random() * 255),(int) (Math.random() * 255),(int) (Math.random() * 255));
+                return new Color((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255));
+        }
+        String tempo=actualMenu.getStringRGB();
+        String[] tempoo=tempo.split(",");
+        if(tempoo.length==3) {
+            return new Color(Integer.parseInt(tempoo[0]), Integer.parseInt(tempoo[1]), Integer.parseInt(tempoo[2]));
         }
         return Color.WHITE;
     }
     static void closeMenu(int current,boolean fromMenu){
-        Color temp=getColorFromComboColor((String) Objects.requireNonNull(actualMenu.farbwahl.getSelectedItem()));
-        components[current].setColor(temp);
-        components[current].colorStr = (String) Objects.requireNonNull(actualMenu.farbwahl.getSelectedItem());
+        if((String) Objects.requireNonNull(actualMenu.farbwahl.getSelectedItem())!="Custom") {
+            Color temp = getColorFromComboColor((String) Objects.requireNonNull(actualMenu.farbwahl.getSelectedItem()));
+            components[current].setColor(temp);
+            components[current].colorStr = (String) Objects.requireNonNull(actualMenu.farbwahl.getSelectedItem());
+        }
+        else{
+            Color temp = getColorFromComboColor((String) Objects.requireNonNull(actualMenu.getStringRGB()));
+            components[current].setColor(temp);
+            components[current].colorStr = (String) Objects.requireNonNull(actualMenu.getStringRGB());
+            components[current].myColorRGB = (String) Objects.requireNonNull(actualMenu.getStringRGB());
+        }
         //actualMenu.main.setVisible(false);
         center.remove(actualMenu.main);
         top.setVisible(true);
@@ -171,7 +200,7 @@ public class Spellbook {
     static void addATonOfSpells(){
         Spells = new Spell[SpellNo];
         for (int i = 0; i < SpellNo; i++){
-            Spells[i]=new Spell("A New Spelldescription","0","New Spell "+(i+1),"1","None","0","0d0+0",false,false,false);
+            Spells[i]=new Spell("A New Spelldescription","0","New Spell "+(i+1),"1","None","0","0d0+0",false,false,false,"0,0,0");
         }
     }
     static void goNext(){
@@ -213,6 +242,7 @@ public class Spellbook {
 class MenuComponent{
    JPanel main;
    Color mycolor;
+   String myColorRGB;
    String colorStr;
    JButton open,roll;
    JLabel name;
@@ -222,6 +252,7 @@ class MenuComponent{
         open=new JButton("View");
         roll=new JButton("Roll");
         colorStr="Default";
+        myColorRGB="0,0,0";
         listen=new AListener();
         main.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         open.addActionListener(listen);
@@ -248,9 +279,9 @@ class MenuComponent{
 }
 
 class Spell{
-    String desc,range,name,level,school,speed,damage;
+    String desc,range,name,level,school,speed,damage,RGBcolor;
     Boolean ritual,concentration,favorite;
-    Spell(String pdesc, String prange, String pname, String plevel, String pschool, String pspeed, String pdamage, Boolean pritual, Boolean pconcentration, Boolean pfavorite){
+    Spell(String pdesc, String prange, String pname, String plevel, String pschool, String pspeed, String pdamage, Boolean pritual, Boolean pconcentration, Boolean pfavorite,String pRGBcolor){
         if (pdesc=="") desc="No Description"; else desc=pdesc;
         if (prange=="") range="Special";else range=prange;
         if (pname=="") name="Magic"; else name=pname;
@@ -261,9 +292,10 @@ class Spell{
         ritual=pritual;
         concentration=pconcentration;
         favorite=pfavorite;
+        if(pRGBcolor=="") RGBcolor="0,0,0"; else RGBcolor=pRGBcolor;
     }
     Spell defaultSpell(){
-        return new Spell("","","","","","","",false,false,false);
+        return new Spell("","","","","","","",false,false,false,"0,0,0");
     }
     private int[] rolldmg(){
         return CommonFunctions.RollDice(damage);
@@ -271,18 +303,38 @@ class Spell{
 }
 class SpellMenu{
     JComboBox farbwahl;
-    JPanel main,submain,split;
+    JPanel main,submain,colorPanel;
     Border b;
     JTextField range,name,level,school,speed,damage;
     JTextArea desc;
+    JFormattedTextField R,G,B;
+    JLabel currentColor;
     JCheckBox ritual,concentration,favorite;
     JButton save;
     AListener listen;
-    Dimension sepPanelSize;
+    static NumberFormat format=NumberFormat.getNumberInstance();
+    static NumberFormatter numfom=new NumberFormatter(format);
     SpellMenu(){
-        String[] farben={"Very Default","Ruby","Aquamarine","Honey","Snake Green","Gold","Silver","Copper","Lapis","Double Special Surprise"};
+        String[] farben={"Very Default","Ruby","Aquamarine","Honey","Snake Green","Gold","Silver","Copper","Lapis","Double Special Surprise","Custom"};
         main= new JPanel(new GridLayout(1,2 ));
         submain=new JPanel(new GridLayout(13,1));
+        numfom.setValueClass(Integer.class);
+        numfom.setAllowsInvalid(false);
+        R=new JFormattedTextField(numfom);
+        G=new JFormattedTextField(numfom);
+        B=new JFormattedTextField(numfom);
+        currentColor=new JLabel();
+        colorPanel=new JPanel(new GridLayout(1,4));
+        colorPanel.add(R);
+        R.setBorder(tborder("R"));
+        colorPanel.add(G);
+        G.setBorder(tborder("G"));
+        colorPanel.add(B);
+        B.setBorder(tborder("B"));
+        R.setEditable(false);
+        G.setEditable(false);
+        B.setEditable(false);
+        colorPanel.add(currentColor);
         farbwahl=new JComboBox(farben);
         favorite=new JCheckBox("Set as Favorite");
         b=BorderFactory.createLineBorder(Color.BLACK);
@@ -318,7 +370,30 @@ class SpellMenu{
         main.add(submain);
         main.add(desc);
         submain.add(farbwahl);
+        submain.add(colorPanel);
         submain.add(save);
+    }
+   String getStringRGB(){
+            return R.getText()+","+G.getText()+","+B.getText();
+   }
+   Boolean stringIsColor(String test){
+       String[] farben={"Very Default","Ruby","Aquamarine","Honey","Snake Green","Gold","Silver","Copper","Lapis","Double Special Surprise","Custom"};
+        for (int i = 0;i<11;i++){
+            if (test==farben[i]){
+                return true;
+            }
+       }
+      return false;
+   }
+    void setRGBsaves(String RGB){
+        String[] tempoo=RGB.split(",");
+        if(tempoo.length==3) {
+            farbwahl.setSelectedItem("Custom");
+            Spellbook.releaseRGBmaybe();
+            R.setText(tempoo[0]);
+            G.setText(tempoo[1]);
+            B.setText(tempoo[2]);
+        }
     }
    void fillFromSpell(Spell filler){
         name.setText(filler.name);
@@ -331,6 +406,7 @@ class SpellMenu{
         damage.setText(filler.damage);
         ritual.setSelected(filler.ritual);
         favorite.setSelected(filler.favorite);
+        currentColor.setBackground(Spellbook.getColorFromComboColor(filler.RGBcolor));
     }
      void saveToSpell(Spell filled){
        filled.name=name.getText();
@@ -343,10 +419,11 @@ class SpellMenu{
        filled.damage=damage.getText();
        filled.ritual=ritual.isSelected();
        filled.favorite=favorite.isSelected();
+       filled.RGBcolor=getStringRGB();
     }
 
      Spell CreateSpell(){
-        return new Spell(desc.getText(),range.getText(),name.getText(),level.getText(),school.getText(),speed.getText(),damage.getText(),ritual.isSelected(),concentration.isSelected(),favorite.isSelected());
+        return new Spell(desc.getText(),range.getText(),name.getText(),level.getText(),school.getText(),speed.getText(),damage.getText(),ritual.isSelected(),concentration.isSelected(),favorite.isSelected(),getStringRGB());
     }
 
     TitledBorder tborder(String title){
