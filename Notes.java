@@ -5,7 +5,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 
 public class Notes {
-    static JPanel main, top, center;
+    static JPanel main, top, center,bot ;
     static JPanel[] pages;
     static AListener listen;
     static Searching search;
@@ -16,11 +16,15 @@ public class Notes {
     static JTextField searchBar;
     final static int PAGE_NO = 300;
     static int head, searchSize;
-    static JLabel page;
+    static JTextField page;
+    static JLabel prefix;
     public static void init(){
         head = 0;
         searchSize = 0;
-        page = new JLabel("Page: "+(head+1));
+        prefix = new JLabel("Page: ");
+        bot = new JPanel();
+        page = new JTextField(""+(head+1));
+        page.setColumns(2);
         center = new JPanel(new FlowLayout());
         searchedArray = new JTextArea[PAGE_NO];
         texts = new String[PAGE_NO];
@@ -43,10 +47,30 @@ public class Notes {
         top.add(next);
         main.add(top, BorderLayout.NORTH);
         main.add(center,BorderLayout.CENTER);
-        main.add(page,BorderLayout.SOUTH);
+        main.add(bot, BorderLayout.SOUTH);
+        bot.add(prefix);
+        bot.add(page);
         searchBar.addKeyListener(search);
+        page.addKeyListener(search);
         initPageAreas();
         changePage();
+    }
+    static void gotoPage(){
+        String input = page.getText();
+        try {
+            int inputt = Integer.parseInt(input)-1;
+            if (inputt < PAGE_NO && inputt > -1) {
+                int savethis = head;
+                try {
+                    head = inputt;
+                    changePage();
+                } catch (NullPointerException NPE) {
+                    head = savethis;
+                }
+            }
+        }catch (IllegalArgumentException e){
+            page.setText(input);
+        }
     }
     static void search(){
         updateSearchString();
@@ -101,7 +125,7 @@ public class Notes {
             pages[i].setVisible(false);
         }
         searchedArray[head].getParent().setVisible(true);
-        page.setText("Page: "+(head+1));
+        page.setText(""+(head+1));
     }
     static void goNext(){
         if (head<(searchSize-1)){

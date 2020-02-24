@@ -20,6 +20,9 @@ public class Searching implements KeyListener {
         if (k.getSource()==Notes.searchBar){
             Notes.changePage();
         }
+        if (k.getSource()==Notes.page){
+            Notes.gotoPage();
+        }
     }
 
     @Override
@@ -33,6 +36,9 @@ public class Searching implements KeyListener {
         if (k.getSource()==Notes.searchBar){
             Notes.changePage();
         }
+        if (k.getSource()==Notes.page){
+            Notes.gotoPage();
+        }
     }
 
     @Override
@@ -45,6 +51,9 @@ public class Searching implements KeyListener {
         }
         if (k.getSource()==Notes.searchBar){
             Notes.changePage();
+        }
+        if (k.getSource()==Notes.page){
+            Notes.gotoPage();
         }
     }
 }
