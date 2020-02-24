@@ -4,10 +4,8 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.NumberFormatter;
 import java.awt.*;
-import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Objects;
-import java.util.function.Predicate;
 
 
 public class Spellbook {
@@ -22,14 +20,15 @@ public class Spellbook {
     static final int SpellNo = 260;
     static int head,screenFittingSpells,componentHeight,currentmenu;
     static Searching searchListener;
-    static Boolean inMenu;
+    static Boolean inMenu, inFavorites;
     static Dimension buttondim,xddim;
 
-    public static void init() throws IOException {
+    public static void init(){
         buttondim=new Dimension(51,51);     //width everywhere is WEIRD change with caution!!! should be odd/prime
         xddim=new Dimension(1,60);
         head=0;
         inMenu=false;
+        inFavorites=false;
         searchListener=new Searching();
         currentmenu=-1;
         componentHeight=35;
@@ -75,6 +74,7 @@ public class Spellbook {
         searchbar.addKeyListener(searchListener);
         addATonOfSpells();
         actualMenu=new SpellMenu();
+        searchbutton.addActionListener(listen);
         changePage();
     }
     static void removeButtonIfEndOfMenu(){
@@ -95,7 +95,7 @@ public class Spellbook {
         actualMenu.updateColors();
     }
     static void releaseRGBmaybe(){
-        if ((String) Objects.requireNonNull(actualMenu.farbwahl.getSelectedItem())=="Custom"){
+        if (Objects.requireNonNull(actualMenu.farbwahl.getSelectedItem()) =="Custom"){
             releaseRGBdefinite(true);
         }
         else releaseRGBdefinite(false);
@@ -147,11 +147,14 @@ public class Spellbook {
         top.setVisible(false);
         result.setVisible(false);
         actualMenu.setRGBsaves(components[current].myColorRGB);
-        currentsave=menu.save;
-        currentmenu=current;
-        actualMenu=menu;
+        setStaticReferences(menu, current);
         releaseRGBmaybe();
         updateColors();
+    }
+    static void setStaticReferences(SpellMenu pMenu, int pCurrent){
+        currentsave=pMenu.save;
+        currentmenu=pCurrent;
+        actualMenu=pMenu;
     }
     static Color getColorFromComboColor(String combo){
         switch(combo) {
@@ -191,23 +194,23 @@ public class Spellbook {
         return Color.WHITE;
     }
     static void closeMenu(int current,boolean fromMenu){
-        if(!((String) Objects.requireNonNull(actualMenu.farbwahl.getSelectedItem())).equals("Custom")) {
+        if(!Objects.requireNonNull(actualMenu.farbwahl.getSelectedItem()).equals("Custom")) {
             Color temp = getColorFromComboColor((String) Objects.requireNonNull(actualMenu.farbwahl.getSelectedItem()));
             components[current].setColor(temp);
             components[current].colorStr = (String) Objects.requireNonNull(actualMenu.farbwahl.getSelectedItem());
         }
         else{
-            Color temp = getColorFromComboColor((String) Objects.requireNonNull(actualMenu.getStringRGB()));
+            Color temp = getColorFromComboColor(Objects.requireNonNull(actualMenu.getStringRGB()));
             components[current].setColor(temp);
-            components[current].colorStr = (String) Objects.requireNonNull(actualMenu.getStringRGB());
-            components[current].myColorRGB = (String) Objects.requireNonNull(actualMenu.getStringRGB());
+            components[current].colorStr = Objects.requireNonNull(actualMenu.getStringRGB());
+            components[current].myColorRGB = Objects.requireNonNull(actualMenu.getStringRGB());
         }
-        //actualMenu.main.setVisible(false);
         center.remove(actualMenu.main);
         top.setVisible(true);
         result.setVisible(true);
         changePage();
         if (fromMenu)actualMenu.saveToSpell(Spells[current]);
+        updateFavoriteBorders();
         components[current].setText(actualMenu.name.getText());
         inMenu=false;
     }
@@ -237,7 +240,7 @@ public class Spellbook {
     }
     static void changePage(){
         removeButtonIfEndOfMenu();
-        System.out.println(components[0].main.getAlignmentY());
+        updateFavoriteBorders();
         for (int i = 0; i < (SpellNo); i++){
             components[i].main.setVisible(false);
         }
@@ -252,6 +255,32 @@ public class Spellbook {
             center.add(components[i].main);
         }
     }
+    static void openFavorites(){
+        if (inFavorites) {
+            inFavorites=false;
+            inMenu=false;
+            changePage();
+        }
+        else if (!inMenu) {
+            inFavorites=true;
+            inMenu = true;
+            for (int i = 0; i < SpellNo;i++){
+                components[i].main.setVisible(false);
+                if (Spells[i].favorite){
+                    components[i].main.setVisible(true);
+                }
+            }
+            updateFavoriteBorders();
+        }
+    }
+    static void updateFavoriteBorders(){
+        for (int i = 0; i < SpellNo; i ++){
+            components[i].main.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            if (Spells[i].favorite){
+                components[i].main.setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
+            }
+        }
+    }
 }
 class MenuComponent{
    JPanel main;
@@ -261,6 +290,7 @@ class MenuComponent{
    JButton open,roll;
    JLabel name;
    AListener listen;
+   Boolean isFavorite;
    MenuComponent(String pname) {
         main=new JPanel(new FlowLayout());
         open=new JButton("View");
@@ -296,17 +326,17 @@ class Spell{
     String desc,range,name,level,school,speed,damage,RGBcolor;
     Boolean ritual,concentration,favorite;
     Spell(String pdesc, String prange, String pname, String plevel, String pschool, String pspeed, String pdamage, Boolean pritual, Boolean pconcentration, Boolean pfavorite,String pRGBcolor){
-        if (pdesc=="") desc="No Description"; else desc=pdesc;
-        if (prange=="") range="Special";else range=prange;
-        if (pname=="") name="Magic"; else name=pname;
-        if (plevel=="") level="1"; else level=plevel;
-        if (pschool=="") school="General magic";else school=pschool;
-        if (pspeed=="") speed="0";else speed=pspeed;
-        if (pdamage=="") damage="0d0+0"; else damage=pdamage;
+        if (pdesc.equals("")) desc="No Description"; else desc=pdesc;
+        if (prange.equals("")) range="Special";else range=prange;
+        if (pname.equals("")) name="Magic"; else name=pname;
+        if (plevel.equals("")) level="1"; else level=plevel;
+        if (pschool.equals("")) school="General magic";else school=pschool;
+        if (pspeed.equals("")) speed="0";else speed=pspeed;
+        if (pdamage.equals("")) damage="0d0+0"; else damage=pdamage;
         ritual=pritual;
         concentration=pconcentration;
         favorite=pfavorite;
-        if(pRGBcolor==",,") RGBcolor="0,0,0"; else RGBcolor=pRGBcolor;
+        if(pRGBcolor.equals(",,")) RGBcolor="0,0,0"; else RGBcolor=pRGBcolor;
     }
     Spell defaultSpell(){
         return new Spell("","","","","","","",false,false,false,"0,0,0");
@@ -397,9 +427,9 @@ class SpellMenu{
         submain.add(save);
     }
     void updateColors(){
-        if(R.getText()=="") R.setText("0");
-        if(G.getText()=="") G.setText("0");
-        if(B.getText()=="") B.setText("0");
+        if(R.getText().equals("")) R.setText("0");
+        if(G.getText().equals("")) G.setText("0");
+        if(B.getText().equals("")) B.setText("0");
         try{
         if( (Integer.parseInt(R.getText()) >= 0) && (Integer.parseInt(R.getText()) <= 255) &&
                 (Integer.parseInt(R.getText()) >= 0) && (Integer.parseInt(R.getText()) <= 255) &&
@@ -414,15 +444,15 @@ class SpellMenu{
     }
 
    String getStringRGB(){
-       if(R.getText()=="") R.setText("0");
-       if(G.getText()=="") G.setText("0");
-       if(B.getText()=="") B.setText("0");
+       if(R.getText().equals("")) R.setText("0");
+       if(G.getText().equals("")) G.setText("0");
+       if(B.getText().equals("")) B.setText("0");
             return R.getText()+","+G.getText()+","+B.getText();
    }
    Boolean stringIsColor(String test){
        String[] farben={"Very Default","Ruby","Aquamarine","Honey","Snake Green","Gold","Silver","Copper","Lapis","Double Special Surprise","Custom"};
         for (int i = 0;i<11;i++){
-            if (test==farben[i]){
+            if (test.equals(farben[i])){
                 return true;
             }
        }
@@ -470,7 +500,6 @@ class SpellMenu{
     }
 
     TitledBorder tborder(String title){
-        var m=BorderFactory.createTitledBorder(b,title,TitledBorder.CENTER,TitledBorder.ABOVE_TOP);
-        return m;
+        return BorderFactory.createTitledBorder(b,title,TitledBorder.CENTER,TitledBorder.ABOVE_TOP);
     }
 }

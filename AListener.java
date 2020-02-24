@@ -87,6 +87,9 @@ public class AListener implements ActionListener {
         if(e.getSource()==Spellbook.previous){
             Spellbook.goPrevious();
         }
+        if(e.getSource()==Spellbook.searchbutton){
+            Spellbook.openFavorites();
+        }
         for(int i = 0;i < Spellbook.SpellNo;i++){
             if (e.getSource()==Spellbook.components[i].open){
                 Spellbook.openMenu(i);
