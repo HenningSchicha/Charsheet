@@ -2,7 +2,6 @@ package com.company;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 
 public class AListener implements ActionListener {
     static String hittext="hits with",dmgtext="hits for",crittext="crits for";
@@ -81,6 +80,10 @@ public class AListener implements ActionListener {
             UI.collapseAll();
             UI.PSpellbook.setVisible(true);
         }
+        if(e.getSource()==UI.BNotes){
+            UI.collapseAll();
+            UI.PNotes.setVisible(true);
+        }
         if(e.getSource()==Spellbook.next){
             Spellbook.goNext();
         }
@@ -90,7 +93,7 @@ public class AListener implements ActionListener {
         if(e.getSource()==Spellbook.searchbutton){
             Spellbook.openFavorites();
         }
-        for(int i = 0;i < Spellbook.SpellNo;i++){
+        for(int i = 0; i < Spellbook.SPELL_NO; i++){
             if (e.getSource()==Spellbook.components[i].open){
                 Spellbook.openMenu(i);
             }
@@ -104,6 +107,12 @@ public class AListener implements ActionListener {
         if (e.getSource()==Spellbook.actualMenu.farbwahl){
             CommonFunctions.ComboBoxSelfColor(Spellbook.actualMenu.farbwahl);
             Spellbook.releaseRGBmaybe();
+        }
+        if (e.getSource()==Notes.next){
+            Notes.goNext();
+        }
+        if (e.getSource()==Notes.previous){
+            Notes.goPrevious();
         }
     }
 }

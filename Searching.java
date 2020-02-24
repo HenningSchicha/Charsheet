@@ -17,6 +17,9 @@ public class Searching implements KeyListener {
         if ((k.getSource()==UI.wepone)||(k.getSource()==UI.weptwo)||(k.getSource()==UI.wepthree)||(k.getSource()==UI.wepfour)){
             UI.saveAttacks();
         }
+        if (k.getSource()==Notes.searchBar){
+            Notes.changePage();
+        }
     }
 
     @Override
@@ -27,6 +30,9 @@ public class Searching implements KeyListener {
         if ((k.getSource()==UI.wepone)||(k.getSource()==UI.weptwo)||(k.getSource()==UI.wepthree)||(k.getSource()==UI.wepfour)){
             UI.saveAttacks();
         }
+        if (k.getSource()==Notes.searchBar){
+            Notes.changePage();
+        }
     }
 
     @Override
@@ -36,6 +42,9 @@ public class Searching implements KeyListener {
         }
         if ((k.getSource()==UI.wepone)||(k.getSource()==UI.weptwo)||(k.getSource()==UI.wepthree)||(k.getSource()==UI.wepfour)){
             UI.saveAttacks();
+        }
+        if (k.getSource()==Notes.searchBar){
+            Notes.changePage();
         }
     }
 }

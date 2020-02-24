@@ -32,6 +32,25 @@ public class CommonFunctions {
         Result[2]=Integer.parseInt(more[1]);
         return Result;
     }
+    static int upTo(int pInt){
+        while (pInt>255){
+            pInt -= 255;
+        }
+        return pInt;
+    }
+    static int downTo(int pInt){
+        while (pInt>255){
+            pInt -= 255;
+        }
+        return 255-pInt;
+    }
+    static int halfWay(int pInt){
+        pInt += 128;
+        while (pInt>255){
+            pInt -= 255;
+        }
+        return pInt;
+    }
     public static String cutWhitespace(String s){
         return s.replaceAll("\\s","");
     }

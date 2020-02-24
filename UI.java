@@ -12,8 +12,8 @@ public class UI {
     static AListener listen;
     static Searching search;
     static JFrame frame;
-    static JPanel main, PTop,PLabels,PMenu,PAttacks,PEquip,PRolls,PStats,PSpellbook,PMain;
-    static JButton BAttacks, BEquip, BRolls, BStats,BIdle,BSpellbook;
+    static JPanel main, PTop,PLabels,PMenu,PAttacks,PEquip,PRolls,PStats,PSpellbook,PNotes,PMain;
+    static JButton BAttacks, BEquip, BRolls, BStats,BIdle,BSpellbook,BNotes;
     static JLabel LName,LClass,LLvl;
     static String charname,classname,lvl;
     static JButton onetohit;
@@ -44,6 +44,7 @@ public class UI {
         Idle.init();
         Equipment.init();
         Spellbook.init();
+        Notes.init();
         listen=new AListener();
         search=new Searching();
         initPanels();
@@ -127,6 +128,7 @@ public class UI {
         PRolls = new JPanel();
         PStats = new JPanel();
         PSpellbook = new JPanel();
+        PNotes = new JPanel();
     }
     static void setDefaultVisibilities() {
         TopA.setVisible(true);
@@ -141,6 +143,7 @@ public class UI {
         PRolls.setVisible(false);
         PStats.setVisible(false);
         PSpellbook.setVisible(false);
+        PNotes.setVisible(false);
     }
     static void createJPanelStructure() {
         PAttacks.add(APlaceholder, BorderLayout.EAST);
@@ -157,6 +160,7 @@ public class UI {
         PTop.add(PLabels, BorderLayout.NORTH);
         PTop.add(PMenu, BorderLayout.CENTER);
         PSpellbook.add(Spellbook.outer);
+        PNotes.add(Notes.main);
         createMenuStructure();
     }
     static void createMenuStructure() {
@@ -166,6 +170,7 @@ public class UI {
         PMain.add(PStats);
         PMain.add(Idle.field);
         PMain.add(PSpellbook);
+        PMain.add(PNotes);
     }
     static void initLabels(){
         initializeResultLabels();
@@ -206,6 +211,7 @@ public class UI {
         PMenu.add(BRolls);
         PMenu.add(BStats);
         PMenu.add(BSpellbook);
+        PMenu.add(BNotes);
         PMenu.add(BIdle);
     }
     static void initMenuListeners() {
@@ -215,6 +221,7 @@ public class UI {
         BRolls.addActionListener(listen);
         BStats.addActionListener(listen);
         BSpellbook.addActionListener(listen);
+        BNotes.addActionListener(listen);
     }
     static void initMenuButtons() {
         BAttacks = new JButton("Attacks");
@@ -223,6 +230,7 @@ public class UI {
         BStats = new JButton("Stats");
         BIdle = new JButton("Idle Game");
         BSpellbook = new JButton("Spellbook");
+        BNotes = new JButton("Notes");
     }
     static void createTitleBorders() {
         noBorder = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.black),
@@ -442,6 +450,7 @@ public class UI {
         PRolls.setVisible(false);
         PStats.setVisible(false);
         PSpellbook.setVisible(false);
+        PNotes.setVisible(false);
     }
     static void putStringsInArray(){
         Strings= new String[100];

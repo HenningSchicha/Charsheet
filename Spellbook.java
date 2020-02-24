@@ -17,7 +17,7 @@ public class Spellbook {
     static Spell[] Spells;
     static SpellMenu actualMenu;
     static AListener listen;
-    static final int SpellNo = 260;
+    static final int SPELL_NO = 260;
     static int head,screenFittingSpells,componentHeight,currentmenu;
     static Searching searchListener;
     static Boolean inMenu, inFavorites;
@@ -86,7 +86,7 @@ public class Spellbook {
             previous.setVisible(false);
             previousPlaceHolder.setVisible(true);
         }
-        else if (head + screenFittingSpells >= SpellNo) {
+        else if (head + screenFittingSpells >= SPELL_NO) {
             next.setVisible(false);
             nextPlaceHolder.setVisible(true);
         }
@@ -110,7 +110,7 @@ public class Spellbook {
         String temp = input.getText();
         if (temp.equals("")) changePage();
         else {
-            for (int i = 0; i < SpellNo; i++) {
+            for (int i = 0; i < SPELL_NO; i++) {
                 if (Spells[i].name.toLowerCase().contains(temp.toLowerCase())) {
                     components[i].main.setVisible(true);
                 } else components[i].main.setVisible(false);
@@ -131,7 +131,7 @@ public class Spellbook {
         result.setText(Result);
     }
     static void openMenu(int current){
-        for (int i = 0; i < SpellNo; i++){
+        for (int i = 0; i < SPELL_NO; i++){
             components[i].main.setVisible(false);
         }
         inMenu=true;
@@ -215,15 +215,15 @@ public class Spellbook {
         inMenu=false;
     }
     static void addATonOfSpells(){
-        Spells = new Spell[SpellNo];
-        for (int i = 0; i < SpellNo; i++){
+        Spells = new Spell[SPELL_NO];
+        for (int i = 0; i < SPELL_NO; i++){
             Spells[i]=new Spell("A New Spelldescription","0","New Spell "+(i+1),"1","None","0","0d0+0",false,false,false,"0,0,0");
         }
     }
     static void goNext(){
         if (!inMenu) {
             if (!(currentmenu == -1)) closeMenu(currentmenu, false);
-            if (!(head + screenFittingSpells > SpellNo)) {
+            if (!(head + screenFittingSpells > SPELL_NO)) {
                 head = head + screenFittingSpells;
             }
             changePage();
@@ -241,16 +241,16 @@ public class Spellbook {
     static void changePage(){
         removeButtonIfEndOfMenu();
         updateFavoriteBorders();
-        for (int i = 0; i < (SpellNo); i++){
+        for (int i = 0; i < (SPELL_NO); i++){
             components[i].main.setVisible(false);
         }
-        for (int i = head;i <(head+screenFittingSpells)&&i<SpellNo;i++){
+        for (int i = head; i <(head+screenFittingSpells)&&i< SPELL_NO; i++){
             components[i].main.setVisible(true);
         }
     }
     static void addATonOfComponents(){
-        components = new MenuComponent[SpellNo];
-        for (int i=0;i<SpellNo;i++){
+        components = new MenuComponent[SPELL_NO];
+        for (int i = 0; i< SPELL_NO; i++){
             components[i]=new MenuComponent("New Spell "+(i+1));
             center.add(components[i].main);
         }
@@ -264,7 +264,7 @@ public class Spellbook {
         else if (!inMenu) {
             inFavorites=true;
             inMenu = true;
-            for (int i = 0; i < SpellNo;i++){
+            for (int i = 0; i < SPELL_NO; i++){
                 components[i].main.setVisible(false);
                 if (Spells[i].favorite){
                     components[i].main.setVisible(true);
@@ -274,7 +274,7 @@ public class Spellbook {
         }
     }
     static void updateFavoriteBorders(){
-        for (int i = 0; i < SpellNo; i ++){
+        for (int i = 0; i < SPELL_NO; i ++){
             components[i].main.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             if (Spells[i].favorite){
                 components[i].main.setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
