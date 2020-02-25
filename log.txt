@@ -1,0 +1,14 @@
+
+
+<CharSheet log start: 2020/02/25 22:30:02>
+
+
+<Good decision made!>
+<Edited Spell> New Spell 3
+<Rolled Spell> You rolled 0 () + 0 with New Spell 82
+<Rolled Spell> You rolled 0 () + 0 with New Spell 82
+
+
+<CharSheet log end: 2020/02/25 22:30:17>
+
+

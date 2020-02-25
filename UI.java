@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.text.NumberFormat;
 
 public class UI {
+    static closeWindowCustom customCloser;
     static AListener listen;
     static Searching search;
     static JFrame frame;
@@ -45,7 +46,9 @@ public class UI {
         Equipment.init();
         Spellbook.init();
         Notes.init();
+        Logger.onStartup();
         listen=new AListener();
+        customCloser=new closeWindowCustom();
         search=new Searching();
         initPanels();
         initFormat();
@@ -106,10 +109,14 @@ public class UI {
     }
     static void initFrame() {
         frame = new JFrame("DnD Character sheet");
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setResizable(true);
         frame.setSize(1440, 810);
         frame.add(main);
+        frame.addWindowListener(customCloser);
+    }
+    static void CustomExit(){
+
     }
     static void initPanels() {
         ATriple = new JPanel(new GridLayout(3, 1));
@@ -554,6 +561,7 @@ public class UI {
             thr.append(AResult.getText().replace("1)    ",""));
             AnResult.setText("2)    "+thr);
             AResult.setText("1)    "+building+res+"");
+            Logger.log("<Rolled Attack> "+building+res);
         } catch (NumberFormatException | NullPointerException e) {
             AResult.setText(String.valueOf(e.getCause()));
         }

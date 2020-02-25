@@ -29,6 +29,7 @@ public class Listener implements ActionListener {
                 Idle.main.setText("                  This is fun i swear                  ");
                 Idle.maindesc.setBackground(new Color(179, 134, 0));
                 Idle.main.setBackground(new Color(0, 179, 89));
+                Logger.log("<Good decision made!>");
             }
             Idle.click();
         }

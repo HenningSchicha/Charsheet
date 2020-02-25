@@ -128,6 +128,7 @@ public class Spellbook {
         Result=Result+")";
         Result=Result+" + "+CommonFunctions.SplitDiceString(input)[CommonFunctions.SplitDiceString(input).length-1];
         Result=Result+" with "+Spells[curr].name;
+        Logger.log("<Rolled Spell> "+Result);
         result.setText(Result);
     }
     static void openMenu(int current){
@@ -212,6 +213,7 @@ public class Spellbook {
         if (fromMenu)actualMenu.saveToSpell(Spells[current]);
         updateFavoriteBorders();
         components[current].setText(actualMenu.name.getText());
+        if (fromMenu) Logger.log("<Edited Spell> "+Spells[current].name);
         inMenu=false;
     }
     static void addATonOfSpells(){
