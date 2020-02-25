@@ -116,7 +116,7 @@ public class Notes {
     }
     static Border prettyBorder(int colorInt){
         Color prettyColor = new Color(upTo(colorInt*5),downTo(colorInt*5),halfWay(colorInt*5));
-        return BorderFactory.createLineBorder(prettyColor,5);
+        return BorderFactory.createLineBorder(prettyColor,5, true);
     }
     static void changePage(){
         save();
@@ -124,6 +124,7 @@ public class Notes {
         for (int i = 0; i < PAGE_NO; i++){
             pages[i].setVisible(false);
         }
+        if (head>searchSize){head=searchSize-1;}
         searchedArray[head].getParent().setVisible(true);
         page.setText(""+(head+1));
     }
