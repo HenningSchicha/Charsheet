@@ -9,19 +9,31 @@ import java.util.Objects;
 
 
 public class Spellbook {
-    static JPanel top, outer, center;
+    static JPanel top;
+    static JPanel outer;
+    static JPanel center;
     static JTextField searchbar;
-    static JButton searchbutton, next, previous, currentsave;
-    static JLabel result, nextPlaceHolder, previousPlaceHolder;
+    static JButton searchbutton;
+    static JButton next;
+    static JButton previous;
+    static JButton currentsave;
+    static JLabel result;
+    static JLabel nextPlaceHolder;
+    static JLabel previousPlaceHolder;
     static MenuComponent[] components;
     static Spell[] Spells;
     static SpellMenu actualMenu;
     static AListener listen;
     static final int SPELL_NO = 260;
-    static int head,screenFittingSpells,componentHeight,currentmenu;
+    static int head;
+    static int screenFittingSpells;
+    static int componentHeight;
+    static int currentmenu;
     static Searching searchListener;
-    static Boolean inMenu, inFavorites;
-    static Dimension buttondim,xddim;
+    static Boolean inMenu;
+    static Boolean inFavorites;
+    static Dimension buttondim;
+    static Dimension xddim;
 
     public static void init(){
         buttondim=new Dimension(51,51);     //width everywhere is WEIRD change with caution!!! should be odd/prime
@@ -37,7 +49,7 @@ public class Spellbook {
         outer = new JPanel();
         center=new JPanel();
         center.setLayout(new FlowLayout());
-        center.setPreferredSize(new Dimension(541,(componentHeight+18)*screenFittingSpells));
+        center.setPreferredSize(new Dimension(541,(componentHeight+21)*screenFittingSpells));
         outer.setLayout(new BorderLayout());
         outer.add(center,BorderLayout.CENTER);
         outer.setOpaque(true);
@@ -209,7 +221,8 @@ public class Spellbook {
         center.remove(actualMenu.main);
         top.setVisible(true);
         result.setVisible(true);
-        changePage();
+        if (!inFavorites) changePage();
+        else openFavorites(true);
         if (fromMenu)actualMenu.saveToSpell(Spells[current]);
         updateFavoriteBorders();
         components[current].setText(actualMenu.name.getText());
@@ -257,7 +270,11 @@ public class Spellbook {
             center.add(components[i].main);
         }
     }
-    static void openFavorites(){
+    static void openFavorites(Boolean fromMenu){
+        if (fromMenu) {
+            inFavorites=false;
+            inMenu=false;
+        }
         if (inFavorites) {
             inFavorites=false;
             inMenu=false;
@@ -289,7 +306,8 @@ class MenuComponent{
    Color mycolor;
    String myColorRGB;
    String colorStr;
-   JButton open,roll;
+   JButton open;
+    JButton roll;
    JLabel name;
    AListener listen;
    Boolean isFavorite;
@@ -325,8 +343,17 @@ class MenuComponent{
 }
 
 class Spell{
-    String desc,range,name,level,school,speed,damage,RGBcolor;
-    Boolean ritual,concentration,favorite;
+    String desc;
+    String range;
+    String name;
+    String level;
+    String school;
+    String speed;
+    String damage;
+    String RGBcolor;
+    Boolean ritual;
+    Boolean concentration;
+    Boolean favorite;
     Spell(String pdesc, String prange, String pname, String plevel, String pschool, String pspeed, String pdamage, Boolean pritual, Boolean pconcentration, Boolean pfavorite,String pRGBcolor){
         if (pdesc.equals("")) desc="No Description"; else desc=pdesc;
         if (prange.equals("")) range="Special";else range=prange;
@@ -350,13 +377,24 @@ class Spell{
 class SpellMenu{
     JComboBox farbwahl;
     ColorUpdateListener update;
-    JPanel main,submain,colorPanel;
+    JPanel main;
+    JPanel submain;
+    JPanel colorPanel;
     Border b;
-    JTextField range,name,level,school,speed,damage;
+    JTextField range;
+    JTextField name;
+    JTextField level;
+    JTextField school;
+    JTextField speed;
+    JTextField damage;
     JTextArea desc;
-    JFormattedTextField R,G,B;
+    JFormattedTextField R;
+    JFormattedTextField G;
+    JFormattedTextField B;
     JPanel currentColor;
-    JCheckBox ritual,concentration,favorite;
+    JCheckBox ritual;
+    JCheckBox concentration;
+    JCheckBox favorite;
     JButton save;
     AListener listen;
     static NumberFormat format=NumberFormat.getNumberInstance();

@@ -12,3 +12,91 @@
 <CharSheet log end: 2020/02/25 22:30:17>
 
 
+
+
+<CharSheet log start: 2020/02/26 18:18:45>
+
+
+<Edited Spell> New Spell 3
+<Edited Spell> New Spell 3
+<Edited Spell> New Spell 4
+
+
+<CharSheet log start: 2020/02/26 18:43:35>
+
+
+
+
+<CharSheet log end: 2020/02/26 18:43:37>
+
+
+
+
+<CharSheet log start: 2020/02/26 18:43:51>
+
+
+<Edited Spell> New Spell 4
+<Edited Spell> New Spell 4
+
+
+<CharSheet log start: 2020/02/26 18:47:36>
+
+
+<Edited Spell> New Spell 4
+<Edited Spell> New Spell 4
+<Edited Spell> New Spell 4
+<Edited Spell> New Spell 4
+
+==========================================
+<CharSheet log start: 2020/02/26 18:52:29>
+==========================================
+
+<Edited Spell> New Spell 1
+<Edited Spell> New Spell 2
+<Edited Spell> New Spell 4
+<Edited Spell> New Spell 3
+<Edited Spell> New Spell 5
+<Edited Spell> New Spell 6
+<Edited Spell> New Spell 7
+<Edited Spell> New Spell 8
+<Edited Spell> New Spell 9
+<Edited Spell> New Spell 10
+<Good decision made!>
+
+==========================================
+ <CharSheet log end: 2020/02/26 18:54:30>
+==========================================
+
+
+
+<CharSheet log start: 2020/02/26 18:54:40>
+
+
+
+
+<CharSheet log end: 2020/02/26 18:54:43>
+
+
+
+==========================================
+<CharSheet log start: 2020/02/26 19:14:15>
+==========================================
+
+<Rolled Attack> Weapon 3 hits with () + 0 = 0
+<Rolled Attack> Weapon 2 hits for () + 0 = 0
+<Good decision made!>
+
+==========================================
+ <CharSheet log end: 2020/02/26 19:14:34>
+==========================================
+
+
+==========================================
+<CharSheet log start: 2020/02/26 19:43:05>
+==========================================
+
+
+==========================================
+ <CharSheet log end: 2020/02/26 19:43:13>
+==========================================
+

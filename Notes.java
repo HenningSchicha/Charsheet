@@ -5,17 +5,23 @@ import javax.swing.border.Border;
 import java.awt.*;
 
 public class Notes {
-    static JPanel main, top, center,bot ;
+    static JPanel main;
+    static JPanel top;
+    static JPanel center;
+    static JPanel bot ;
     static JPanel[] pages;
     static AListener listen;
     static Searching search;
-    static JTextArea[] areas, searchedArray;
+    static JTextArea[] areas;
+    static JTextArea[] searchedArray;
     static String[] texts;
     static String searchString;
-    static JButton next, previous;
+    static JButton next;
+    static JButton previous;
     static JTextField searchBar;
     final static int PAGE_NO = 300;
-    static int head, searchSize;
+    static int head;
+    static int searchSize;
     static JTextField page;
     static JLabel prefix;
     public static void init(){
