@@ -1,4 +1,4 @@
-package com.company;
+package Henning.Schicha;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -39,8 +39,8 @@ public class Notes {
         main = new JPanel(new BorderLayout());
         pages = new JPanel[PAGE_NO];
         areas = new JTextArea[PAGE_NO];
-        next = new JButton("",new ImageIcon("src/com/company/rightArrow.png"));
-        previous = new JButton("",new ImageIcon("src/com/company/leftArrow.png"));
+        next = new JButton("",new ImageIcon("src/Henning/Schicha/rightArrow.png"));
+        previous = new JButton("",new ImageIcon("src/Henning/Schicha/leftArrow.png"));
         next.setMargin(new Insets(0,0,0,0));
         previous.setMargin(new Insets(0,0,0,0));
         next.addActionListener(listen);

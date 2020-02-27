@@ -1,4 +1,4 @@
-package com.company;
+package Henning.Schicha;
 
 import javax.swing.*;
 

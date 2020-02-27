@@ -1,4 +1,4 @@
-package com.company;
+package Henning.Schicha;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -10,7 +10,7 @@ public class Logger {
     static final String VERY_EQUAL = "==========================================";
     public static void log(String toLog){
         try {
-            BufferedWriter out = new BufferedWriter(new FileWriter("src/com/company/log.txt",true));
+            BufferedWriter out = new BufferedWriter(new FileWriter("src/Henning/Schicha/log.txt",true));
             out.append(toLog + "\n");
             out.close();
         }catch (IOException io){

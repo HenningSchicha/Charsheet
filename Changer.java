@@ -1,4 +1,4 @@
-package com.company;
+package Henning.Schicha;
 
 import java.util.TimerTask;
 

@@ -1,4 +1,4 @@
-package com.company;
+package Henning.Schicha;
 
 import javax.swing.*;
 import javax.swing.border.Border;

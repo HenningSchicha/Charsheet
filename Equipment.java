@@ -1,6 +1,5 @@
-package com.company;
+package Henning.Schicha;
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.NumberFormatter;
 import java.awt.*;
