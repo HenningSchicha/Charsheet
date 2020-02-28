@@ -60,9 +60,9 @@ public class AListener implements ActionListener {
             UI.collapseAll();
             UI.PAttacks.setVisible(true);
         }
-        if(e.getSource()==UI.BIdle){
+        if(e.getSource()==UI.BMiscellaneous){
             UI.collapseAll();
-            Idle.field.setVisible(true);
+            Miscellaneous.main.setVisible(true);
         }
         if(e.getSource()==UI.BStats){
             UI.collapseAll();
@@ -113,6 +113,18 @@ public class AListener implements ActionListener {
         }
         if (e.getSource()==Notes.previous){
             Notes.goPrevious();
+        }
+        if (e.getSource()==Miscellaneous.bIdle){
+            Miscellaneous.setVisible(Miscellaneous.pIdle);
+        }
+        if (e.getSource()==Miscellaneous.bLog){
+            Miscellaneous.setVisible(Miscellaneous.pLog);
+        }
+        if (e.getSource()==Miscellaneous.bClear){
+            Logger.clearLog();
+        }
+        if (e.getSource()==Miscellaneous.bGoL){
+            Miscellaneous.setVisible(Miscellaneous.pGoL);
         }
     }
 }

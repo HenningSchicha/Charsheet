@@ -28,7 +28,7 @@ public class UI {
     static JButton BEquip;
     static JButton BRolls;
     static JButton BStats;
-    static JButton BIdle;
+    static JButton BMiscellaneous;
     static JButton BSpellbook;
     static JButton BNotes;
     static JLabel LName;
@@ -140,7 +140,9 @@ public class UI {
         Equipment.init();
         Spellbook.init();
         Notes.init();
+        Miscellaneous.init();
         Logger.onStartup();
+        Miscellaneous.updateLog();
         listen=new AListener();
         customCloser=new closeWindowCustom();
         search=new Searching();
@@ -238,7 +240,7 @@ public class UI {
         main.setVisible(true);
         PTop.setVisible(true);
         PLabels.setVisible(true);
-        Idle.field.setVisible(false);
+        Miscellaneous.main.setVisible(false);
         PAttacks.setVisible(true);
         PEquip.setVisible(false);
         PRolls.setVisible(false);
@@ -269,7 +271,7 @@ public class UI {
         PMain.add(PAttacks, 0);
         PMain.add(PRolls);
         PMain.add(PStats);
-        PMain.add(Idle.field);
+        PMain.add(Miscellaneous.main);
         PMain.add(PSpellbook);
         PMain.add(PNotes);
     }
@@ -313,10 +315,10 @@ public class UI {
         PMenu.add(BStats);
         PMenu.add(BSpellbook);
         PMenu.add(BNotes);
-        PMenu.add(BIdle);
+        PMenu.add(BMiscellaneous);
     }
     static void initMenuListeners() {
-        BIdle.addActionListener(listen);
+        BMiscellaneous.addActionListener(listen);
         BAttacks.addActionListener(listen);
         BEquip.addActionListener(listen);
         BRolls.addActionListener(listen);
@@ -329,7 +331,7 @@ public class UI {
         BEquip = new JButton("Equipment");
         BRolls = new JButton("Custom rolls");
         BStats = new JButton("Stats");
-        BIdle = new JButton("Idle Game");
+        BMiscellaneous = new JButton("Miscellaneous");
         BSpellbook = new JButton("Spellbook");
         BNotes = new JButton("Notes");
     }
@@ -545,7 +547,7 @@ public class UI {
         fourattack.addActionListener(listen);
     }
     public static void collapseAll(){
-        Idle.field.setVisible(false);
+        Miscellaneous.main.setVisible(false);
         PAttacks.setVisible(false);
         PEquip.setVisible(false);
         PRolls.setVisible(false);
