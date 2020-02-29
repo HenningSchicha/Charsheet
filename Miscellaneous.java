@@ -12,6 +12,10 @@ public class Miscellaneous {
     static JButton bIdle, bLog, bGoL, bClear;
     static AListener listen;
     static TextArea log;
+    static TButton tButton;
+
+
+
     static void init(){
         bClear = new JButton("Clear log");
         log = new TextArea();
@@ -44,6 +48,9 @@ public class Miscellaneous {
         pLog.add(log);
         pLog.add(bClear);
         bClear.addActionListener(listen);
+        tButton=new TButton();
+        tButton.init();
+        pGoL.add(tButton.main);
     }
     static void setVisible(JPanel remainer){
         collapseAll();
