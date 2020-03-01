@@ -375,7 +375,7 @@ class Spell{
     }
 }
 class SpellMenu{
-    JComboBox farbwahl;
+    JComboBox<String> farbwahl;
     ColorUpdateListener update;
     JPanel main;
     JPanel submain;
@@ -428,7 +428,7 @@ class SpellMenu{
         G.addKeyListener(update);
         B.addKeyListener(update);
         colorPanel.add(currentColor);
-        farbwahl=new JComboBox(farben);
+        farbwahl=new JComboBox<>(farben);
         favorite=new JCheckBox("Set as Favorite");
         b=BorderFactory.createLineBorder(Color.BLACK);
         save=new JButton("Return");

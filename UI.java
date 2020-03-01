@@ -141,11 +141,10 @@ public class UI {
         Spellbook.init();
         Notes.init();
         Miscellaneous.init();
+        Custom_Rolls.init();
         Logger.onStartup();
         Miscellaneous.updateLog();
-        listen=new AListener();
-        customCloser=new closeWindowCustom();
-        search=new Searching();
+        initListeners();
         initPanels();
         initFormat();
         initWeaponJTextAreas();
@@ -161,6 +160,11 @@ public class UI {
         finalizeMenuButtons();
         createJPanelStructure();
         setDefaultVisibilities();
+    }
+    static void initListeners(){
+        listen=new AListener();
+        customCloser=new closeWindowCustom();
+        search=new Searching();
     }
     static void initFormat(){
         numfom.setValueClass(Integer.class);
@@ -262,6 +266,7 @@ public class UI {
         main.add(PMain, BorderLayout.CENTER);
         PTop.add(PLabels, BorderLayout.NORTH);
         PTop.add(PMenu, BorderLayout.CENTER);
+        PRolls.add(Custom_Rolls.main);
         PSpellbook.add(Spellbook.outer);
         PNotes.add(Notes.main);
         createMenuStructure();

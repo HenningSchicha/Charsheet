@@ -52,8 +52,8 @@ public class Miscellaneous {
         tButton.init();
 
         pGoL.add(tButton.main);
-        tButton.TButtonStyle(105,105);
-        tButton.TButtonFont(new Font("serif",Font.BOLD,50));
+        tButton.setTButtonStyle(105,105);
+        tButton.setTButtonFont(new Font("serif",Font.BOLD,50));
     }
     static void setVisible(JPanel remainer){
         collapseAll();

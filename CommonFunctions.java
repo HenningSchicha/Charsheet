@@ -14,7 +14,7 @@ public class CommonFunctions {
         res[0] = res[0] + dice[2];
         return res;
     }
-    public static void ComboBoxSelfColor(JComboBox JCB){
+    public static void ComboBoxSelfColor(JComboBox<String> JCB){
         JCB.setBackground(Spellbook.getColorFromComboColor((String) JCB.getSelectedItem()));
     }
     public static int[] SplitDiceString(String Dice){

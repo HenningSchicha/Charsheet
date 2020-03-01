@@ -126,5 +126,8 @@ public class AListener implements ActionListener {
         if (e.getSource()==Miscellaneous.bGoL){
             Miscellaneous.setVisible(Miscellaneous.pGoL);
         }
+        if (e.getSource()==RollStats.roller){
+            RollStats.rollem();
+        }
     }
 }
