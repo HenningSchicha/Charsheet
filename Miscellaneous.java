@@ -50,7 +50,10 @@ public class Miscellaneous {
         bClear.addActionListener(listen);
         tButton=new TButton();
         tButton.init();
+
         pGoL.add(tButton.main);
+        tButton.TButtonStyle(105,105);
+        tButton.TButtonFont(new Font("serif",Font.BOLD,50));
     }
     static void setVisible(JPanel remainer){
         collapseAll();
