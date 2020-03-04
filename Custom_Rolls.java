@@ -1,20 +1,71 @@
 package Henning.Schicha;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.util.Arrays;
+import java.io.*;
 import java.util.Objects;
 
 public class Custom_Rolls {
     static JPanel main;
     static void init(){
         RollStats.init();
-        main = new JPanel();
-        main.add(RollStats.main);
+        RollMagicItem.init();
+        main = new JPanel(new BorderLayout());
+        main.add(RollStats.main, BorderLayout.WEST);
+        main.add(RollMagicItem.main,BorderLayout.EAST);
     }
 }
+class RollMagicItem{
+    static AListener listen;
+    static JPanel main, center, bot;
+    static JLabel name, type, rarity, attune, attune_res, cursed;
+    static JButton roll;
+    static final int ROW_NO = 1138;
 
+    static void init(){
+        listen = new AListener();
+        main = new JPanel(new BorderLayout());
+        main.setBorder(BorderFactory.createTitledBorder("Random Magic Item"));
+        center = new JPanel();
+        bot = new JPanel(new GridLayout(6,1));
+        name = new JLabel("Name");
+        type = new JLabel("Type");
+        rarity = new JLabel("Rarity");
+        attune = new JLabel("Attunement");
+        attune_res = new JLabel("AttunementRestr.");
+        cursed = new JLabel("Cursed?");
+        roll = new JButton("Get Magic Item");
+        main.add(center, BorderLayout.CENTER);
+        main.add(bot,BorderLayout.SOUTH);
+        roll.addActionListener(listen);
+        main.setPreferredSize(new Dimension(300,main.getHeight()));
+        center.add(roll);
+        bot.add(name);
+        bot.add(type);
+        bot.add(rarity);
+        bot.add(attune);
+        bot.add(attune_res);
+        bot.add(cursed);
+    }
+
+    static void RollItem() throws IOException {
+        File file = new File("src/Henning/Schicha/resources/MagicItems.CSV");
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        String[] allTheLines = new String[ROW_NO];
+        for (int i = 0; i < (ROW_NO-1); i++) {
+            allTheLines[i] = br.readLine();
+        }
+        int selector = (int) (Math.random()*(ROW_NO-1));
+        String[] lines = allTheLines[selector].split(";");
+        name.setText("Name: "+lines[0]);
+        type.setText("Type: "+lines[1]);
+        rarity.setText("Rarity: "+lines[2]);
+        attune.setText("Attune: "+((lines[3].equals("yes")) ? "Yes":"No"));
+        attune_res.setText("Att_Res: "+lines[4]);
+        cursed.setText("Cursed: "+ ((lines.length==7) ? "Yes":"No" ));
+        Logger.log("<Rolled Magic Item> "+lines[0]+" : "+lines[1]+" : "+lines[2]+" : "+((lines[3].equals("yes")) ? "Yes":"No")+" : "+lines[4]+" : "+((lines.length==7) ? "Yes":"No" ));
+    }
+}
 class RollStats{
     static JPanel main,center, left, right;
     static JComboBox<String> method;
@@ -93,6 +144,7 @@ class RollStats{
                     String prefix = prefixes[i];
                     String suffix = (CommonFunctions.RollDice("3d6+0")[0]+"");
                     all[i].setText(prefix+suffix);
+                    Logger.log("<Rolled Character by 3d6> "+all[i].getText());
                 }
                 break;
             case "4d6d1":
@@ -100,6 +152,7 @@ class RollStats{
                     String prefix = prefixes[i];
                     String suffix =(do4d6d1()+"");
                     all[i].setText(prefix+suffix);
+                    Logger.log("<Rolled Character by 4d6d1> "+all[i].getText());
                 }
                 break;
             case "18d6":
@@ -111,6 +164,7 @@ class RollStats{
                     if(i%6==5&&i!=17) total = total +"\n";
                 }
                 list.setText(total);
+                Logger.log("<Rolled Character by 18d6> "+total);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + (String) Objects.requireNonNull(method.getSelectedItem()));

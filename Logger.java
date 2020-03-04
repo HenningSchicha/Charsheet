@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Logger {
     static final String VERY_EQUAL = "==========================================";
-    static final String FILE_PATH = "src/Henning/Schicha/log.txt";
+    static final String FILE_PATH = "src/Henning/Schicha/resources/log.txt";
     public static void log(String toLog){
         try {
             BufferedWriter out = new BufferedWriter(new FileWriter(FILE_PATH,true));

@@ -56,7 +56,7 @@ public class Spellbook {
         addATonOfComponents();
         top = new JPanel(new FlowLayout());
         searchbar = new JTextField();
-        previous= new JButton("", new ImageIcon("src/Henning/Schicha/leftArrow.png"));
+        previous= new JButton("", new ImageIcon("src/Henning/Schicha/resources/leftArrow.png"));
         previous.setPreferredSize(buttondim);
         nextPlaceHolder= new JLabel();
         previousPlaceHolder=new JLabel();
@@ -67,9 +67,9 @@ public class Spellbook {
         top.add(previous);
         searchbar.setPreferredSize(new Dimension(401, 50));
         top.add(searchbar);
-        next = new JButton("",new ImageIcon("src/Henning/Schicha/rightArrow.png"));
+        next = new JButton("",new ImageIcon("src/Henning/Schicha/resources/rightArrow.png"));
         nextPlaceHolder.setPreferredSize(buttondim);
-        searchbutton = new JButton("", new ImageIcon("src/Henning/Schicha/searchMonocle.jpg"));
+        searchbutton = new JButton("", new ImageIcon("src/Henning/Schicha/resources/searchMonocle.jpg"));
         top.add(searchbutton);
         next.setPreferredSize(buttondim);
         searchbutton.setMargin(new Insets(0, 0, 0, 0));

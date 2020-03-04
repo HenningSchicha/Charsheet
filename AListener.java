@@ -2,6 +2,7 @@ package Henning.Schicha;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class AListener implements ActionListener {
     static String hittext="hits with",dmgtext="hits for",crittext="crits for";
@@ -128,6 +129,13 @@ public class AListener implements ActionListener {
         }
         if (e.getSource()==RollStats.roller){
             RollStats.rollem();
+        }
+        if (e.getSource()==RollMagicItem.roll){
+            try {
+                RollMagicItem.RollItem();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 }
