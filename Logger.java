@@ -8,11 +8,11 @@ import java.time.format.DateTimeFormatter;
 
 public class Logger {
     static final String VERY_EQUAL = "==========================================";
-    static final String FILE_PATH = "src/Henning/Schicha/resources/log.txt";
+    static final String FILE_PATH = "resources/log.txt";
     public static void log(String toLog){
         try {
             BufferedWriter out = new BufferedWriter(new FileWriter(FILE_PATH,true));
-            out.append(toLog + "\n");
+            out.append(toLog).append("\n");
             out.close();
             Miscellaneous.updateLog();
         }catch (IOException io){
@@ -39,6 +39,6 @@ public class Logger {
     public static void onClose(){
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        log("\n"+VERY_EQUAL+"\n <CharSheet log end: "+dtf.format(now)+">\n"+VERY_EQUAL+"\n");
+        log("\n"+VERY_EQUAL+"\n<CharSheet log end: "+dtf.format(now)+">\n"+VERY_EQUAL+"\n");
     }
 }

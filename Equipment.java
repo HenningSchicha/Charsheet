@@ -36,7 +36,6 @@ public class Equipment {
     static NumberFormat format=NumberFormat.getNumberInstance();
     static NumberFormatter numfom=new NumberFormatter(format);
     public static void init(){
-        if (sTwoBag.equals("")) sTwoBag="\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n                                                                                    ";
         wait= new Weightcalcing();
         outer=new JPanel(new BorderLayout());
         inner=new JPanel(new BorderLayout());
@@ -54,6 +53,7 @@ public class Equipment {
         outer.add(pOuter,BorderLayout.SOUTH);
         inner.add(pInner,BorderLayout.SOUTH);
         tBody=new JTextArea(sBody);
+        tBody.setPreferredSize(new Dimension(250,500));
         tBody.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK),"Body",TitledBorder.TOP,TitledBorder.TOP));
         tOneBag=new JTextArea(sOneBag);
         tOneBag.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK),"Bag one",TitledBorder.TOP,TitledBorder.TOP));

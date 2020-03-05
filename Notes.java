@@ -39,8 +39,8 @@ public class Notes {
         main = new JPanel(new BorderLayout());
         pages = new JPanel[PAGE_NO];
         areas = new JTextArea[PAGE_NO];
-        next = new JButton("",new ImageIcon("src/Henning/Schicha/resources/rightArrow.png"));
-        previous = new JButton("",new ImageIcon("src/Henning/Schicha/resources/leftArrow.png"));
+        next = new JButton("",new ImageIcon("resources/rightArrow.png"));
+        previous = new JButton("",new ImageIcon("resources/leftArrow.png"));
         next.setMargin(new Insets(0,0,0,0));
         previous.setMargin(new Insets(0,0,0,0));
         next.addActionListener(listen);

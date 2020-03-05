@@ -2,6 +2,9 @@ package Henning.Schicha;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.HierarchyBoundsAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.*;
 import java.util.Objects;
 
@@ -10,15 +13,80 @@ public class Custom_Rolls {
     static void init(){
         RollStats.init();
         RollMagicItem.init();
+        QuickRoll.init();
         main = new JPanel(new BorderLayout());
         main.add(RollStats.main, BorderLayout.WEST);
         main.add(RollMagicItem.main,BorderLayout.EAST);
+        main.add(QuickRoll.main,BorderLayout.NORTH);
+    }
+}
+class QuickRoll{
+    static QuickRollListener listen;
+    static JPanel main, center;
+    static JTextArea[] history;
+    static JTextField roll;
+    static final int HISTORY_LENGTH = 10;
+    static void init(){
+        listen = new QuickRollListener();
+        main = new JPanel(new BorderLayout());
+        main.setBorder(BorderFactory.createTitledBorder("Quick Roll"));
+        center = new JPanel(new GridLayout(HISTORY_LENGTH,1));
+        history = new JTextArea[HISTORY_LENGTH];
+        roll = new JTextField("0d0+0");
+        roll.addKeyListener(listen);
+        main.add(roll,BorderLayout.NORTH);
+        main.add(center,BorderLayout.CENTER);
+        for (int i = 0;i <HISTORY_LENGTH; i++){
+            history[i] = new JTextArea();
+            center.add(history[i]);
+            history[i].setEditable(false);
+            history[i].setBorder(BorderFactory.createEtchedBorder());
+        }
+    }
+    static void roll(){
+        int[] inter = CommonFunctions.RollDice(roll.getText());
+        for (int i = (HISTORY_LENGTH-1);i>0;i--){
+            history[i].setText(history[i-1].getText());
+        }
+        String inBracket = "";
+        for (int i = 1; i < inter.length;i++){
+            inBracket = inBracket + inter[i] + " ";
+        }
+        inBracket=inBracket.stripTrailing();
+        history[0].setText("Rolled "+roll.getText()+": "+inter[0]+" ("+inBracket+")");
+        Logger.log("<Quick rolled> "+roll.getText()+": "+inter[0]+" ("+inBracket+")");
+    }
+}
+class QuickRollListener implements KeyListener{
+
+    @Override
+    public void keyTyped(KeyEvent keyEvent) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent keyEvent) {
+        if (keyEvent.getKeyCode()==KeyEvent.VK_ENTER){
+            QuickRoll.roll();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent keyEvent) {
+
     }
 }
 class RollMagicItem{
     static AListener listen;
-    static JPanel main, center, bot;
-    static JLabel name, type, rarity, attune, attune_res, cursed;
+    static JPanel main;
+    static JPanel center;
+    static JPanel bot;
+    static JLabel name;
+    static JLabel type;
+    static JLabel rarity;
+    static JLabel attune;
+    static JLabel attune_res;
+    static JLabel cursed;
     static JButton roll;
     static final int ROW_NO = 1138;
 
@@ -49,7 +117,7 @@ class RollMagicItem{
     }
 
     static void RollItem() throws IOException {
-        File file = new File("src/Henning/Schicha/resources/MagicItems.CSV");
+        File file = new File("resources/MagicItems.CSV");
         BufferedReader br = new BufferedReader(new FileReader(file));
         String[] allTheLines = new String[ROW_NO];
         for (int i = 0; i < (ROW_NO-1); i++) {
@@ -67,11 +135,20 @@ class RollMagicItem{
     }
 }
 class RollStats{
-    static JPanel main,center, left, right;
+    static JPanel main;
+    static JPanel center;
+    static JPanel left;
+    static JPanel right;
     static JComboBox<String> method;
-    static JButton roller, translate;
+    static JButton roller;
+    static JButton translate;
     static AListener listen;
-    static JLabel str, dex, con, inT, wis, chr;
+    static JLabel str;
+    static JLabel dex;
+    static JLabel con;
+    static JLabel inT;
+    static JLabel wis;
+    static JLabel chr;
     static JTextArea list;
     static JLabel[] all;
     static void init(){
@@ -164,7 +241,7 @@ class RollStats{
                     if(i%6==5&&i!=17) total = total +"\n";
                 }
                 list.setText(total);
-                Logger.log("<Rolled Character by 18d6> "+total);
+                Logger.log("<Rolled Character by 18d6> "+total.replace("\n",""));
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + (String) Objects.requireNonNull(method.getSelectedItem()));
