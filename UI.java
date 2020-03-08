@@ -640,7 +640,7 @@ public class UI {
             String eed=dee.replaceAll("\\s","");
             String dna=and.replaceAll("\\s","");
             int x;
-            if(crit)x = 2*Integer.parseInt(xe);
+            if (crit) x = 2 * Integer.parseInt(xe);
             else x = Integer.parseInt(xe);
             int d = Integer.parseInt(eed);
             int plus = Integer.parseInt(dna);

@@ -56,7 +56,7 @@ public class Spellbook {
         addATonOfComponents();
         top = new JPanel(new FlowLayout());
         searchbar = new JTextField();
-        previous= new JButton("", new ImageIcon("resources/leftArrow.png"));
+        previous= new JButton("", new ImageIcon(FilePaths.LEFT_ARROW));
         previous.setPreferredSize(buttondim);
         nextPlaceHolder= new JLabel();
         previousPlaceHolder=new JLabel();
@@ -67,13 +67,13 @@ public class Spellbook {
         top.add(previous);
         searchbar.setPreferredSize(new Dimension(401, 50));
         top.add(searchbar);
-        next = new JButton("",new ImageIcon("resources/rightArrow.png"));
+        next = new JButton("",new ImageIcon(FilePaths.RIGHT_ARROW));
         nextPlaceHolder.setPreferredSize(buttondim);
-        searchbutton = new JButton("", new ImageIcon("resources/searchMonocle.jpg"));
+        searchbutton = new JButton("", new ImageIcon(FilePaths.MONOCLE));
         top.add(searchbutton);
         next.setPreferredSize(buttondim);
         searchbutton.setMargin(new Insets(0, 0, 0, 0));
-        searchbutton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        searchbutton.setPreferredSize(buttondim);
         outer.add(top,BorderLayout.NORTH);
         result=new JLabel("Next Result will appear here");
         outer.add(result,BorderLayout.SOUTH);

@@ -39,8 +39,8 @@ public class Notes {
         main = new JPanel(new BorderLayout());
         pages = new JPanel[PAGE_NO];
         areas = new JTextArea[PAGE_NO];
-        next = new JButton("",new ImageIcon("resources/rightArrow.png"));
-        previous = new JButton("",new ImageIcon("resources/leftArrow.png"));
+        next = new JButton("",new ImageIcon(FilePaths.RIGHT_ARROW));
+        previous = new JButton("",new ImageIcon(FilePaths.LEFT_ARROW));
         next.setMargin(new Insets(0,0,0,0));
         previous.setMargin(new Insets(0,0,0,0));
         next.addActionListener(listen);
@@ -131,6 +131,7 @@ public class Notes {
             pages[i].setVisible(false);
         }
         if (head>searchSize){head=searchSize-1;}
+        if (head == -1) head = 0;
         searchedArray[head].getParent().setVisible(true);
         page.setText(""+(head+1));
     }

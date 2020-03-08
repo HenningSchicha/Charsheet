@@ -117,7 +117,7 @@ class RollMagicItem{
     }
 
     static void RollItem() throws IOException {
-        File file = new File("resources/MagicItems.CSV");
+        File file = new File(FilePaths.MAGIC_ITEMS);
         BufferedReader br = new BufferedReader(new FileReader(file));
         String[] allTheLines = new String[ROW_NO];
         for (int i = 0; i < (ROW_NO-1); i++) {

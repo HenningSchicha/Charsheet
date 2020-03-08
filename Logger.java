@@ -8,10 +8,9 @@ import java.time.format.DateTimeFormatter;
 
 public class Logger {
     static final String VERY_EQUAL = "==========================================";
-    static final String FILE_PATH = "resources/log.txt";
     public static void log(String toLog){
         try {
-            BufferedWriter out = new BufferedWriter(new FileWriter(FILE_PATH,true));
+            BufferedWriter out = new BufferedWriter(new FileWriter(FilePaths.LOG,true));
             out.append(toLog).append("\n");
             out.close();
             Miscellaneous.updateLog();
@@ -21,7 +20,7 @@ public class Logger {
     }
     public static void clearLog(){
         try{
-            BufferedWriter out = new BufferedWriter(new FileWriter(FILE_PATH, false));
+            BufferedWriter out = new BufferedWriter(new FileWriter(FilePaths.LOG, false));
             out.append("");
             out.close();
             Miscellaneous.updateLog();

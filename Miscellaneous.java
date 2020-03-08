@@ -65,7 +65,7 @@ public class Miscellaneous {
         pGoL.setVisible(false);
     }
     static void updateLog() throws IOException {
-        File file = new File(Logger.FILE_PATH);
+        File file = new File(FilePaths.LOG);
         BufferedReader br = new BufferedReader(new FileReader(file));
         String st;
         String totalLog = "";
