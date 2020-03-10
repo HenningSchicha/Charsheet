@@ -139,6 +139,7 @@ public class UI {
         Idle.init();
         Equipment.init();
         Spellbook.init();
+        Stats.init();
         Notes.init();
         Miscellaneous.init();
         Custom_Rolls.init();
@@ -267,6 +268,7 @@ public class UI {
         PTop.add(PLabels, BorderLayout.NORTH);
         PTop.add(PMenu, BorderLayout.CENTER);
         PRolls.add(Custom_Rolls.main);
+        PStats.add(Stats.main);
         PSpellbook.add(Spellbook.outer);
         PNotes.add(Notes.main);
         createMenuStructure();

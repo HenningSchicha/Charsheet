@@ -137,5 +137,8 @@ public class AListener implements ActionListener {
                 ex.printStackTrace();
             }
         }
+        if (e.getSource()==CoreStats.calc){
+            CoreStats.calcMods();
+        }
     }
 }
