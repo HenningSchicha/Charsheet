@@ -1,6 +1,7 @@
 package Henning.Schicha;
 
 import javax.swing.*;
+import java.lang.reflect.Array;
 
 public class CommonFunctions {
     public static int[] RollDice(String dmg){
@@ -16,6 +17,17 @@ public class CommonFunctions {
     }
     public static void ComboBoxSelfColor(JComboBox<String> JCB){
         JCB.setBackground(Spellbook.getColorFromComboColor((String) JCB.getSelectedItem()));
+    }
+    public static <T> T[] concatenateArr(T[] a, T[] b) {
+        int aLen = a.length;
+        int bLen = b.length;
+
+        @SuppressWarnings("unchecked")
+        T[] c = (T[]) Array.newInstance(a.getClass().getComponentType(), aLen + bLen);
+        System.arraycopy(a, 0, c, 0, aLen);
+        System.arraycopy(b, 0, c, aLen, bLen);
+
+        return c;
     }
     public static int[] SplitDiceString(String Dice){
         Dice=Dice.replaceAll("\\s","");

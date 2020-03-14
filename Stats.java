@@ -33,6 +33,8 @@ class ExpMenu{
     static JCheckBox xpToLvl;
     static JButton back;
     static JLabel errorLabel;
+    static final String[] LVL_UP_DEFAULT_BREAKPOINTS = {"300","900","2700","6500","14000","23000","34000","48000",
+            "64000","85000","100000","120000","140000","165000","195000","225000","265000","305000","350000"};
     static void makeError(Boolean error){
         if (error)errorLabel.setText("Please enter good Breakpoints");
         else errorLabel.setText("");
@@ -52,12 +54,13 @@ class ExpMenu{
         steps = new JTextField[19];
         errorLabel= new JLabel();
         for (int i = 2; i <= 20; i++){
-            steps[i-2] = new JTextField(i+"");
+            steps[i-2] = new JTextField(LVL_UP_DEFAULT_BREAKPOINTS[i-2]);
             steps[i-2].setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK),
                     i+"",TitledBorder.CENTER,TitledBorder.LEFT));
             submain.add(steps[i-2]);
         }
         xpToLvl=new JCheckBox("Use Exp. Steps");
+        xpToLvl.setSelected(true);
         submain.add(xpToLvl);
         back = new JButton("go back");
         bot.add(back,BorderLayout.CENTER);
@@ -96,6 +99,7 @@ class Naming{
 
     }
     static void translateXpToLvl(){
+        if (!doXpToLvl) return;
         int i = 0;
         try {
             while (Integer.parseInt(fields[4].getText()) >= Integer.parseInt(ExpMenu.steps[i].getText())&&i<19) {
@@ -163,6 +167,22 @@ class CoreStats{
             stats[i].setBorder(doubleTitle(info[i],"0"));
             main.add(stats[i]);
             stats[i].setPreferredSize(new Dimension(95,95));
+            stats[i].addKeyListener(new KeyListener() {
+                @Override
+                public void keyTyped(KeyEvent keyEvent) {
+                    calcMods();
+                }
+
+                @Override
+                public void keyPressed(KeyEvent keyEvent) {
+                    calcMods();
+                }
+
+                @Override
+                public void keyReleased(KeyEvent keyEvent) {
+                    calcMods();
+                }
+            });
             stats[i].setFont(new Font("Sans Serif", 0, 25));
             main.add(calc);
         }
@@ -170,7 +190,12 @@ class CoreStats{
     static void calcMods(){
         for (int i = 0; i < 6 ; i++){
             int mod = -5;
-            int base = Integer.parseInt(stats[i].getText());
+            int base = 0;
+            try {
+                base = Integer.parseInt(stats[i].getText());
+            }catch (NumberFormatException e){
+                base = 0;
+            }
             mod += Math.floor(base/2);
             stats[i].setBorder(doubleTitle(info[i],mod+""));
         }
