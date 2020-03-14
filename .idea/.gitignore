@@ -1,4 +1,6 @@
-﻿*.class
+# Default ignored files
+/workspace.xml
+*.class
 
 # Log file
 *.log
