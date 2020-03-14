@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_char_sheet" default="compile.module.char_sheet">
+  <dirname property="module.char_sheet.basedir" file="${ant.file.module_char_sheet}"/>
+  
+  <property name="module.jdk.home.char_sheet" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.char_sheet" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.char_sheet" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.char_sheet" value="-encoding UTF-8 -source 11 -target 11 ${compiler.args}"/>
+  
+  <property name="char_sheet.output.dir" value="${module.char_sheet.basedir}/out/production/Char sheet"/>
+  <property name="char_sheet.testoutput.dir" value="${module.char_sheet.basedir}/out/test/Char sheet"/>
+  
+  <path id="char_sheet.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="char_sheet.module.production.classpath">
+    <path refid="${module.jdk.classpath.char_sheet}"/>
+  </path>
+  
+  <path id="char_sheet.runtime.production.module.classpath">
+    <pathelement location="${char_sheet.output.dir}"/>
+  </path>
+  
+  <path id="char_sheet.module.classpath">
+    <path refid="${module.jdk.classpath.char_sheet}"/>
+    <pathelement location="${char_sheet.output.dir}"/>
+  </path>
+  
+  <path id="char_sheet.runtime.module.classpath">
+    <pathelement location="${char_sheet.testoutput.dir}"/>
+    <pathelement location="${char_sheet.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.char_sheet">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.char_sheet">
+    <patternset refid="excluded.from.module.char_sheet"/>
+  </patternset>
+  
+  <path id="char_sheet.module.sourcepath">
+    <dirset dir="${module.char_sheet.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.char_sheet" depends="compile.module.char_sheet.production,compile.module.char_sheet.tests" description="Compile module Char sheet"/>
+  
+  <target name="compile.module.char_sheet.production" depends="register.custom.compilers" description="Compile module Char sheet; production classes">
+    <mkdir dir="${char_sheet.output.dir}"/>
+    <javac2 destdir="${char_sheet.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.char_sheet}/javac">
+      <compilerarg line="${compiler.args.char_sheet}"/>
+      <bootclasspath refid="char_sheet.module.bootclasspath"/>
+      <classpath refid="char_sheet.module.production.classpath"/>
+      <src refid="char_sheet.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.char_sheet"/>
+    </javac2>
+    
+    <copy todir="${char_sheet.output.dir}">
+      <fileset dir="${module.char_sheet.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.char_sheet.tests" depends="register.custom.compilers,compile.module.char_sheet.production" description="compile module Char sheet; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.char_sheet" description="cleanup module">
+    <delete dir="${char_sheet.output.dir}"/>
+    <delete dir="${char_sheet.testoutput.dir}"/>
+  </target>
+</project>
