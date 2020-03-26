@@ -1,5 +1,6 @@
 package Henning.Schicha;
 
+import javax.swing.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,19 +16,30 @@ public class Logger {
             out.close();
             Miscellaneous.updateLog();
         }catch (IOException io){
-            clearLog();
+            showError();
         }
+    }
+    public static void showError(){
+        JOptionPane.showMessageDialog(null,
+                "ERROR: Log file not found",
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
     }
     public static void clearLog(){
         try{
-            BufferedWriter out = new BufferedWriter(new FileWriter(FilePaths.LOG, false));
-            out.append("");
-            out.close();
-            Miscellaneous.updateLog();
+            if (JOptionPane.showConfirmDialog(UI.main,
+                    "Are you sure you want to clear the Log?",
+                    "Confirm clear Log",
+                    JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
+                BufferedWriter out = new BufferedWriter(new FileWriter(FilePaths.LOG, false));
+                out.append("");
+                out.close();
+                Miscellaneous.updateLog();
+                onStartup();
+            }
         } catch (IOException IOE){
-            log("<Error in Logger>");
+            showError();
         }
-        onStartup();
     }
     public static void onStartup(){
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
