@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
-public class Notes {
+class Notes {
     static JPanel main;
     static JPanel top;
     static JPanel center;
@@ -24,7 +24,7 @@ public class Notes {
     static int searchSize;
     static JTextField page;
     static JLabel prefix;
-    public static void init(){
+    static void init(){
         head = 0;
         searchSize = 0;
         prefix = new JLabel("Page: ");
@@ -60,6 +60,12 @@ public class Notes {
         page.addKeyListener(search);
         initPageAreas();
         changePage();
+        labelPages();
+    }
+    static void labelPages(){
+        for (int i = 0; i < PAGE_NO; i++){ 
+            areas[i].setText("{Page "+(i+1)+"}");
+        }
     }
     static void gotoPage(){
         String input = page.getText();

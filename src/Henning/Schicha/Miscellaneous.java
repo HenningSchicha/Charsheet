@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class Miscellaneous {
+class Miscellaneous {
     static JPanel main, top, center, pIdle, pLog, pGoL;
     static JButton bIdle, bLog, bGoL, bClear;
     static AListener listen;

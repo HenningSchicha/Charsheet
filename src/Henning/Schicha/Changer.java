@@ -2,7 +2,7 @@ package Henning.Schicha;
 
 import java.util.TimerTask;
 
-public class Changer extends TimerTask {
+class Changer extends TimerTask {
 
     @Override
     public void run() {

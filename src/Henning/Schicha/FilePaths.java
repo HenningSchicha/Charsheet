@@ -1,7 +1,7 @@
 package Henning.Schicha;
 
-public class FilePaths {
-    public static final String
+class FilePaths {
+    static final String
     LOG = "resources/log.txt",
     RIGHT_ARROW = "resources/rightArrow.png",
     LEFT_ARROW = "resources/leftArrow.png",

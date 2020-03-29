@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class Stats {
+class Stats {
     static JPanel main,invis;
     static void init(){
         CoreStats.init();
@@ -186,6 +186,12 @@ class CoreStats{
             stats[i].setFont(new Font("Sans Serif", 0, 25));
             main.add(calc);
         }
+    }
+    static void setAll(String[] pstats){
+        for (int i = 0; i < 6; i++){
+            stats[i].setText(pstats[i]);
+        }
+        calcMods();
     }
     static void calcMods(){
         for (int i = 0; i < 6 ; i++){

@@ -2,13 +2,11 @@ package Henning.Schicha;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.HierarchyBoundsAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.io.*;
 import java.util.Objects;
 
-public class Custom_Rolls {
+class Custom_Rolls {
     static JPanel main;
     static void init(){
         RollStats.init();
@@ -103,6 +101,7 @@ class RollMagicItem{
         attune_res = new JLabel("AttunementRestr.");
         cursed = new JLabel("Cursed?");
         roll = new JButton("Get Magic Item");
+        roll.setBorder(BorderFactory.createEtchedBorder());
         main.add(center, BorderLayout.CENTER);
         main.add(bot,BorderLayout.SOUTH);
         roll.addActionListener(listen);
@@ -151,6 +150,7 @@ class RollStats{
     static JLabel chr;
     static JTextArea list;
     static JLabel[] all;
+    static boolean rolled;
     static void init(){
         listen = new AListener();
         list = new JTextArea();
@@ -158,6 +158,7 @@ class RollStats{
         main = new JPanel(new BorderLayout());
         translate= new JButton("Apply");
         main.add(translate,BorderLayout.SOUTH);
+        translate.addActionListener(e -> translate());
         main.setBorder(BorderFactory.createTitledBorder("RfC"));
         center = new JPanel(new GridLayout(1,2));
         main.add(center, BorderLayout.CENTER);
@@ -176,6 +177,15 @@ class RollStats{
         initLabels();
         for (int i = 0; i < 6; i++){
             right.add(all[i]);
+        }
+    }
+    static void translate(){
+        if (rolled) {
+            String[] stats = new String[6];
+            for (int i = 0; i < 6; i++) {
+                stats[i] = all[i].getText().substring(5);
+            }
+            CoreStats.setAll(stats);
         }
     }
     static void initLabels(){
@@ -222,6 +232,7 @@ class RollStats{
                     String suffix = (CommonFunctions.RollDice("3d6+0")[0]+"");
                     all[i].setText(prefix+suffix);
                     Logger.log("<Rolled Character by 3d6> "+all[i].getText());
+                    rolled = true;
                 }
                 break;
             case "4d6d1":
@@ -230,6 +241,7 @@ class RollStats{
                     String suffix =(do4d6d1()+"");
                     all[i].setText(prefix+suffix);
                     Logger.log("<Rolled Character by 4d6d1> "+all[i].getText());
+                    rolled = true;
                 }
                 break;
             case "18d6":

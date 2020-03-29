@@ -8,7 +8,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.text.NumberFormat;
 
-public class UI {
+class UI {
     static closeWindowCustom customCloser;
     static AListener listen;
     static Searching search;
@@ -190,7 +190,7 @@ public class UI {
         wepfour.addKeyListener(search);
 
     }
-    public static void init(){
+    static void init(){
         charname="ExName";
         classname="ExClass";
         lvl="ExLevel";
@@ -553,7 +553,7 @@ public class UI {
         threeattack.addActionListener(listen);
         fourattack.addActionListener(listen);
     }
-    public static void collapseAll(){
+    static void collapseAll(){
         Miscellaneous.main.setVisible(false);
         PAttacks.setVisible(false);
         PEquip.setVisible(false);
@@ -615,7 +615,7 @@ public class UI {
         AW=Strings[22];
         AX=Strings[23];
     }
-    public static void saveAttacks(){
+    static void saveAttacks(){
         System.out.println("saved");
         putStringsInArray();
         for (int i = 0; i < 24; i++) {
@@ -631,11 +631,11 @@ public class UI {
         cwepthree.setText(wepthree.getText());
         cwepfour.setText(wepfour.getText());
     }
-    public static String getsafeText(JFormattedTextField j){
+    static String getsafeText(JFormattedTextField j){
         if (j.getText().equals("")) return "0";
         else return j.getText();
     }
-    public static void RollAttack(String ex, String dee, String and,String Weapon,String action,Boolean crit){
+    static void RollAttack(String ex, String dee, String and,String Weapon,String action,Boolean crit){
         System.out.println("hitting");
         try {
             String xe=ex.replaceAll("\\s","");

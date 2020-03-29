@@ -3,7 +3,7 @@ package Henning.Schicha;
 import javax.swing.*;
 import java.awt.*;
 
-public class Idle {
+class Idle {
     static Listener listen;
     static JPanel field;
     static JPanel leftfield;
@@ -69,7 +69,7 @@ public class Idle {
     static float smultbase;
     static float fps;
     static float sysboost;
-    public static void init(){
+    static void init(){
         setConstants();
         listen=new Listener();
         initLayouts();
@@ -256,24 +256,24 @@ public class Idle {
         thirdU.setBorder(null);
         fourthU.setBorder(null);
     }
-    public static void buyclick(){
+    static void buyclick(){
         if (money>=clickcost){
             money=money-clickcost;
             clicklvl++;
             clickcost=  (clickcost*inc);
         }
     }
-    public static void click(){
+    static void click(){
         money=money+1+(clicklvl*clickmult*clickbase);
     }
-    public static void update(){
+    static void update(){
         money=money+((personmps+compmps+systemmps)/fps);
         if(money>=2147483647){
             main.setText("you won gj");
         }
         updatetext();
     }
-    public static void updatetext(){
+    static void updatetext(){
         String templvl=clicklvl+"";
         String tempclick="Fingers";
         String tempppl="People";
@@ -350,7 +350,7 @@ public class Idle {
         yU.setText("\n\n\n"+Math.round(smultcost)+" Cost\n\n"+Math.round(systemmult*100)+"% multiplier                     ");
         maindesc.setText("Money:  "+Math.round(money)+"€");
     }
-    public static void buyperson(){
+    static void buyperson(){
         if (money>=personcost){
             money=money-personcost;
             personlvl++;
@@ -358,7 +358,7 @@ public class Idle {
             personcost=(personcost*inc);
         }
     }
-    public static void buycompany(){
+    static void buycompany(){
         if (money>=compcost){
             money=money-compcost;
             complvl++;
@@ -366,7 +366,7 @@ public class Idle {
             compcost=(compcost*inc);
         }
     }
-    public static void buysystem(){
+    static void buysystem(){
         if (money>= syscost){
             money=money- syscost;
             systemlvl++;
@@ -374,14 +374,14 @@ public class Idle {
             syscost =(syscost *inc);
         }
     }
-    public static void buyClickUpgrade(){
+    static void buyClickUpgrade(){
         if (money>=cmultcost){
             money=money-cmultcost;
             clickmult=(clickmult*(1+cmultbase));
             cmultcost=(cmultcost*uInc);
         }
     }
-    public static void buyPersonUpgrade(){
+    static void buyPersonUpgrade(){
         if (money>=pmultcost){
             money=money-pmultcost;
             personmult=(personmult*(1+pmultbase));
@@ -389,7 +389,7 @@ public class Idle {
             personmps=personlvl*personmult*personbase;
         }
     }
-    public static void buyCompanyUpgrade(){
+    static void buyCompanyUpgrade(){
         if (money>=compmultcost){
             money=money-compmultcost;
             compmult=(compmult*(1+compmultbase));
@@ -397,7 +397,7 @@ public class Idle {
             compmps=complvl*compmult*compbase;
         }
     }
-    public static void buySystemUpgrade(){
+    static void buySystemUpgrade(){
         if (money>=smultcost){
             money=money-smultcost;
             systemmult=(systemmult*(1+smultbase));

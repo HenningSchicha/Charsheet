@@ -2,9 +2,10 @@ package Henning.Schicha;
 
 import javax.swing.*;
 import java.lang.reflect.Array;
+import java.util.Objects;
 
-public class CommonFunctions {
-    public static int[] RollDice(String dmg){
+class CommonFunctions {
+    static int[] RollDice(String dmg){
         int[] dice=SplitDiceString(dmg);
         int[] res=new int[dice[0]+1];
         for (int i = 0; i < dice[0]; i++) {
@@ -15,10 +16,10 @@ public class CommonFunctions {
         res[0] = res[0] + dice[2];
         return res;
     }
-    public static void ComboBoxSelfColor(JComboBox<String> JCB){
-        JCB.setBackground(Spellbook.getColorFromComboColor((String) JCB.getSelectedItem()));
+    static void ComboBoxSelfColor(JComboBox<String> JCB){
+        JCB.setBackground(Spellbook.getColorFromComboColor((String) Objects.requireNonNull(JCB.getSelectedItem())));
     }
-    public static <T> T[] concatenateArr(T[] a, T[] b) {
+    static <T> T[] concatenateArr(T[] a, T[] b) {
         int aLen = a.length;
         int bLen = b.length;
 
@@ -29,7 +30,7 @@ public class CommonFunctions {
 
         return c;
     }
-    public static int[] SplitDiceString(String Dice){
+    static int[] SplitDiceString(String Dice){
         Dice=Dice.replaceAll("\\s","");
         Dice=Dice.replaceAll("-","+-");
         String[] Split;
@@ -63,7 +64,7 @@ public class CommonFunctions {
         }
         return pInt;
     }
-    public static String cutWhitespace(String s){
+    static String cutWhitespace(String s){
         return s.replaceAll("\\s","");
     }
 

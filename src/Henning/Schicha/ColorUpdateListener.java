@@ -3,7 +3,7 @@ package Henning.Schicha;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class ColorUpdateListener implements KeyListener {
+class ColorUpdateListener implements KeyListener {
     @Override
     public void keyTyped(KeyEvent keyEvent) {
         Spellbook.updateColors();

@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class Searching implements KeyListener {
+class Searching implements KeyListener {
 
 
     @Override

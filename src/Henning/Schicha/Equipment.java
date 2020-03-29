@@ -5,7 +5,7 @@ import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.text.NumberFormat;
 
-public class Equipment {
+class Equipment {
     static Weightcalcing wait;
     static AListener listen;
     static String sBody;
@@ -35,7 +35,7 @@ public class Equipment {
     static JFormattedTextField tTwoBagWeight;
     static NumberFormat format=NumberFormat.getNumberInstance();
     static NumberFormatter numfom=new NumberFormatter(format);
-    public static void init(){
+    static void init(){
         wait= new Weightcalcing();
         outer=new JPanel(new BorderLayout());
         inner=new JPanel(new BorderLayout());
@@ -96,7 +96,7 @@ public class Equipment {
         pInner.add(tOneBagWeight);
         pInner.add(tTwoBagWeight);
     }
-    public static void save(){
+    static void save(){
         sBody=tBody.getText();
         sOneBag=tOneBag.getText();
         sTwoBag=tTwoBag.getText();
@@ -109,7 +109,7 @@ public class Equipment {
         sSilver=tSilver.getText();
         sCopper=tCopper.getText();
     }
-    public static String getsafeText(JFormattedTextField j){
+    static String getsafeText(JFormattedTextField j){
         if (j.getText().equals("")) return "0";
         else return j.getText();
     }

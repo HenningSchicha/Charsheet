@@ -8,7 +8,7 @@ import java.text.NumberFormat;
 import java.util.Objects;
 
 
-public class Spellbook {
+class Spellbook {
     static JPanel top;
     static JPanel outer;
     static JPanel center;
@@ -35,7 +35,7 @@ public class Spellbook {
     static Dimension buttondim;
     static Dimension xddim;
 
-    public static void init(){
+    static void init(){
         buttondim=new Dimension(51,51);     //width everywhere is WEIRD change with caution!!! should be odd/prime
         xddim=new Dimension(1,60);
         head=0;

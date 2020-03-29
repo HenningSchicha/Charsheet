@@ -3,7 +3,7 @@ package Henning.Schicha;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-public class closeWindowCustom implements WindowListener {
+class closeWindowCustom implements WindowListener {
     @Override
     public void windowOpened(WindowEvent e) {
 

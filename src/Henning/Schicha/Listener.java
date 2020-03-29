@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Listener implements ActionListener {
+class Listener implements ActionListener {
     boolean beginning= true;
-    public static ArrayList<MainThread> things = new ArrayList<>();
+    static ArrayList<MainThread> things = new ArrayList<>();
     private static ExecutorService pool= Executors.newFixedThreadPool(10);
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()== Idle.main) {

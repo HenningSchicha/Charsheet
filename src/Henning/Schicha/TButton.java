@@ -6,14 +6,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
-
-public class TButton {
-    enum Variant {
-        DEFAULT,
-        UPDOWN,
-        LEFTRIGHT,
-    }
-
+enum Variant {
+    DEFAULT,
+    UPDOWN,
+    LEFTRIGHT,
+}
+class TButton {
     TButtonListenerUP listenUP;
     TButtonListenerDOWN listenDOWN;
     SpecialTButtonListenerUP listenSpecialUP;
@@ -25,7 +23,7 @@ public class TButton {
     static NumberFormat format = NumberFormat.getNumberInstance();
     static NumberFormatter numfom = new NumberFormatter(format);
 
-    public void init() {
+    void init() {
         listenUP = new TButtonListenerUP();
         listenDOWN = new TButtonListenerDOWN();
         listenSpecialUP=new SpecialTButtonListenerUP();
@@ -70,25 +68,25 @@ public class TButton {
     }
     /**height of Textfield,width of Textfield, oben, unten, rechts, links, komplette Font, obenImage,untenImage,linksImage,rechtsImage, Variante:default:0
      */
-    public void setTButtonDesign(boolean left, boolean right, boolean down, boolean up){
+    void setTButtonDesign(boolean left, boolean right, boolean down, boolean up){
     }
 
-    public void setTButtonImages(String leftImage, String rightImage, String downImage, String upImage){
+    void setTButtonImages(String leftImage, String rightImage, String downImage, String upImage){
         if(leftImage!="")leftButtom.setIcon(new ImageIcon(leftImage));
         if(rightImage!="")rightButtom.setIcon(new ImageIcon(rightImage));
         if(downImage!="")downButtom.setIcon(new ImageIcon(downImage));
         if(upImage!="")upButtom.setIcon(new ImageIcon(upImage));
     }
 
-    public void setTButtonFont(Font a){
+    void setTButtonFont(Font a){
         numberField.setFont(a);
     }
 
-    public void setTButtonStyle(int width, int height) {
+    void setTButtonStyle(int width, int height) {
        setTButtonStyle(width,height, Variant.DEFAULT);
     }
 
-    public void setTButtonStyle(int width, int height, Variant Style) {
+    void setTButtonStyle(int width, int height, Variant Style) {
         main.setPreferredSize(new Dimension(width, height));
         switch(Style) {
             case DEFAULT:
@@ -120,7 +118,7 @@ public class TButton {
                 break;
         }
     }
-    public void removeAll(){
+    void removeAll(){
         main.remove(leftTopHolder);
         main.remove(upButtom);
         main.remove(rightTopHolder);

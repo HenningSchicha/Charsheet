@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class AListener implements ActionListener {
+class AListener implements ActionListener {
     static String hittext="hits with",dmgtext="hits for",crittext="crits for";
     @Override
     public void actionPerformed(ActionEvent e) {
