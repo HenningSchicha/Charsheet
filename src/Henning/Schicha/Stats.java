@@ -4,13 +4,12 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 class Stats {
-    static JPanel main,invis;
+    static JPanel main;
+    static JPanel invis;
     static void init(){
         CoreStats.init();
         Naming.init();
@@ -28,7 +27,9 @@ class Stats {
     }
 }
 class ExpMenu{
-    static JPanel main,submain,bot;
+    static JPanel main;
+    static JPanel submain;
+    static JPanel bot;
     static JTextField[] steps;
     static JCheckBox xpToLvl;
     static JButton back;
@@ -47,7 +48,7 @@ class ExpMenu{
     }
     static void init(){
         main = new JPanel(new BorderLayout());
-        bot = new JPanel(new BorderLayout());
+        bot  = new JPanel(new BorderLayout());
         main.add(bot,BorderLayout.SOUTH);
         submain = new JPanel(new GridLayout(10,2));
         main.add(submain,BorderLayout.CENTER);
@@ -59,7 +60,7 @@ class ExpMenu{
                     i+"",TitledBorder.CENTER,TitledBorder.LEFT));
             submain.add(steps[i-2]);
         }
-        xpToLvl=new JCheckBox("Use Exp. Steps");
+        xpToLvl = new JCheckBox("Use Exp. Steps");
         xpToLvl.setSelected(true);
         submain.add(xpToLvl);
         back = new JButton("go back");
@@ -77,7 +78,6 @@ class Naming{
     static final String[] INFO = {"Name","Race","Class","Level","Experience"};
     static JButton conf;
     static void openMenu(){
-        onOpenMenu();
         Stats.collapseAll();
         ExpMenu.main.setVisible(true);
     }
@@ -93,10 +93,6 @@ class Naming{
     }
     static void onCloseMenu(){
         doXpToLvl=ExpMenu.xpToLvl.isSelected();
-
-    }
-    static void onOpenMenu(){
-
     }
     static void translateXpToLvl(){
         if (!doXpToLvl) return;
@@ -113,7 +109,7 @@ class Naming{
     static void init(){
         ExpMenu.init();
         listen = new NamingKeyListener();
-        main = new JPanel(new GridLayout(1,6));
+        main   = new JPanel(new GridLayout(1,6));
         fields = new JTextField[5];
         for (int i = 0; i < 5; i++){
             fields[i] = new JTextField(INFO[i]);
@@ -134,18 +130,12 @@ class Naming{
     }
 }
 class NamingKeyListener implements KeyListener{
-
-    @Override
     public void keyTyped(KeyEvent keyEvent) {
         Naming.transferToUI();
     }
-
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         Naming.transferToUI();
     }
-
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
         Naming.transferToUI();
     }
@@ -158,9 +148,9 @@ class CoreStats{
     static AListener listen;
     static void init(){
         listen = new AListener();
-        main = new JPanel(new GridLayout(7,1));
-        stats = new JTextField[6];
-        calc = new JButton("Calculate");
+        main   = new JPanel(new GridLayout(7,1));
+        stats  = new JTextField[6];
+        calc   = new JButton("Calculate");
         calc.addActionListener(listen);
         for (int i = 0; i < 6; i++){
             stats[i]=new JTextField("0");
@@ -168,22 +158,17 @@ class CoreStats{
             main.add(stats[i]);
             stats[i].setPreferredSize(new Dimension(95,95));
             stats[i].addKeyListener(new KeyListener() {
-                @Override
                 public void keyTyped(KeyEvent keyEvent) {
                     calcMods();
                 }
-
-                @Override
                 public void keyPressed(KeyEvent keyEvent) {
                     calcMods();
                 }
-
-                @Override
                 public void keyReleased(KeyEvent keyEvent) {
                     calcMods();
                 }
             });
-            stats[i].setFont(new Font("Sans Serif", 0, 25));
+            stats[i].setFont(new Font("Sans Serif", Font.PLAIN, 25));
             main.add(calc);
         }
     }
@@ -196,13 +181,13 @@ class CoreStats{
     static void calcMods(){
         for (int i = 0; i < 6 ; i++){
             int mod = -5;
-            int base = 0;
+            int base;
             try {
                 base = Integer.parseInt(stats[i].getText());
             }catch (NumberFormatException e){
                 base = 0;
             }
-            mod += Math.floor(base/2);
+            mod += Math.floor(base/2.0);
             stats[i].setBorder(doubleTitle(info[i],mod+""));
         }
     }

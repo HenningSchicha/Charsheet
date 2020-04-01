@@ -36,12 +36,12 @@ class Equipment {
     static NumberFormat format=NumberFormat.getNumberInstance();
     static NumberFormatter numfom=new NumberFormatter(format);
     static void init(){
-        wait= new Weightcalcing();
-        outer=new JPanel(new BorderLayout());
-        inner=new JPanel(new BorderLayout());
-        grid=new JPanel(new GridLayout(1,3,2,5));
-        pOuter=new JPanel(new GridLayout(1,5,2,5));
-        pInner=new JPanel(new GridLayout(1,3,2,5));
+        wait   = new Weightcalcing();
+        outer  = new JPanel(new BorderLayout());
+        inner  = new JPanel(new BorderLayout());
+        grid   = new JPanel(new GridLayout(1,3,2,5));
+        pOuter = new JPanel(new GridLayout(1,5,2,5));
+        pInner = new JPanel(new GridLayout(1,3,2,5));
         pInner.setVisible(true);
         pOuter.setVisible(true);
         grid.setVisible(true);
@@ -97,30 +97,30 @@ class Equipment {
         pInner.add(tTwoBagWeight);
     }
     static void save(){
-        sBody=tBody.getText();
-        sOneBag=tOneBag.getText();
-        sTwoBag=tTwoBag.getText();
-        sBodyWeight=getsafeText(tBodyWeight);
-        sOneBagWeight=getsafeText(tOneBagWeight);
-        sTwoBagWeight=getsafeText(tTwoBagWeight);
+        sBody   = tBody.getText();
+        sOneBag = tOneBag.getText();
+        sTwoBag = tTwoBag.getText();
+        sBodyWeight   = getsafeText(tBodyWeight);
+        sOneBagWeight = getsafeText(tOneBagWeight);
+        sTwoBagWeight = getsafeText(tTwoBagWeight);
         combineWeight();
-        sWeight=tWeight.getText();
-        sGold=tGold.getText();
-        sSilver=tSilver.getText();
-        sCopper=tCopper.getText();
+        sWeight = tWeight.getText();
+        sGold   = tGold.getText();
+        sSilver = tSilver.getText();
+        sCopper = tCopper.getText();
     }
     static String getsafeText(JFormattedTextField j){
         if (j.getText().equals("")) return "0";
         else return j.getText();
     }
     static void combineWeight(){
-        sOneBagWeight=CommonFunctions.cutWhitespace(sOneBagWeight);
-        sTwoBagWeight=CommonFunctions.cutWhitespace(sTwoBagWeight);
-        sBodyWeight=CommonFunctions.cutWhitespace(sBodyWeight);
+        sOneBagWeight = CommonFunctions.cutWhitespace(sOneBagWeight);
+        sTwoBagWeight = CommonFunctions.cutWhitespace(sTwoBagWeight);
+        sBodyWeight   = CommonFunctions.cutWhitespace(sBodyWeight);
         double one,two,three;
-        one=Double.parseDouble(sOneBagWeight);
-        two=Double.parseDouble(sTwoBagWeight);
-        three=Double.parseDouble(sBodyWeight);
+        one   = Double.parseDouble(sOneBagWeight);
+        two   = Double.parseDouble(sTwoBagWeight);
+        three = Double.parseDouble(sBodyWeight);
         tWeight.setText(one+two+three+"");
     }
 

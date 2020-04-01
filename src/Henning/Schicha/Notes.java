@@ -136,7 +136,7 @@ class Notes {
         for (int i = 0; i < PAGE_NO; i++){
             pages[i].setVisible(false);
         }
-        if (head>searchSize){head=searchSize-1;}
+        if (head>searchSize) head=searchSize-1;
         if (head == -1) head = 0;
         searchedArray[head].getParent().setVisible(true);
         page.setText(""+(head+1));

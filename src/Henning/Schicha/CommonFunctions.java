@@ -19,52 +19,40 @@ class CommonFunctions {
     static void ComboBoxSelfColor(JComboBox<String> JCB){
         JCB.setBackground(Spellbook.getColorFromComboColor((String) Objects.requireNonNull(JCB.getSelectedItem())));
     }
-    static <T> T[] concatenateArr(T[] a, T[] b) {
-        int aLen = a.length;
-        int bLen = b.length;
 
-        @SuppressWarnings("unchecked")
-        T[] c = (T[]) Array.newInstance(a.getClass().getComponentType(), aLen + bLen);
-        System.arraycopy(a, 0, c, 0, aLen);
-        System.arraycopy(b, 0, c, aLen, bLen);
-
-        return c;
-    }
     static int[] SplitDiceString(String Dice){
-        Dice=Dice.replaceAll("\\s","");
-        Dice=Dice.replaceAll("-","+-");
+        Dice = cutWhitespace(Dice);
+        Dice = Dice.replaceAll("-","+-");
         String[] Split;
         String[] more;
         int[] Result=new int[3];
-        Split=Dice.split("d");
-        if(Split.length!=2){ Result[0]=-1;return Result;}
+        Split = Dice.split("d");
+        if(Split.length!=2){
+            Result[0]=-1;
+            return Result;
+        }
         more=Split[1].split("\\+");
-        if(more.length!=2){ Result[0]=-1;return Result;}
-        Result[0]=Integer.parseInt(Split[0]);
-        Result[1]=Integer.parseInt(more[0]);
-        Result[2]=Integer.parseInt(more[1]);
+        if(more.length!=2){
+            Result[0]=-1;
+            return Result;
+        }
+        Result[0] = Integer.parseInt(Split[0]);
+        Result[1] = Integer.parseInt(more[0]);
+        Result[2] = Integer.parseInt(more[1]);
         return Result;
     }
     static int upTo(int pInt){
-        while (pInt>255){
-            pInt -= 255;
-        }
-        return pInt;
+        return pInt % 256;
     }
     static int downTo(int pInt){
-        while (pInt>255){
-            pInt -= 255;
-        }
-        return 255-pInt;
+        return 255 - (pInt % 256);
     }
     static int halfWay(int pInt){
         pInt += 128;
-        while (pInt>255){
-            pInt -= 255;
-        }
-        return pInt;
+        return pInt % 256;
     }
-    static String cutWhitespace(String s){
+    static String cutWhitespace(String o){
+        String s = o.replaceAll("\\.","");
         return s.replaceAll("\\s","");
     }
 

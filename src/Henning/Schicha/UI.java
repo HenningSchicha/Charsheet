@@ -216,9 +216,7 @@ class UI {
         frame.add(main);
         frame.addWindowListener(customCloser);
     }
-    static void CustomExit(){
 
-    }
     static void initPanels() {
         ATriple = new JPanel(new GridLayout(3, 1));
         APlaceholder = new JPanel(new GridLayout(4, 1));
@@ -300,9 +298,9 @@ class UI {
         labelStyle();
     }
     static void labelStyle(){
-        AResult.setFont(new Font("Sans Serif", 0, 25));
-        AnResult.setFont(new Font("Sans Serif", 0, 25));
-        AndResult.setFont(new Font("Sans Serif", 0, 25));
+        AResult.setFont(new Font("Sans Serif", Font.PLAIN, 25));
+        AnResult.setFont(new Font("Sans Serif", Font.PLAIN, 25));
+        AndResult.setFont(new Font("Sans Serif", Font.PLAIN, 25));
     }
     static void addLabelsToPanels() {
         ATriple.add(AResult);
@@ -456,10 +454,10 @@ class UI {
     }
     static void setAllFontsAndStyles(){
         for (int i = 0; i<24;i++) {
-            Areas[i].setFont(new Font("Segoe Script",0, 45));
-            if (i%3==0) Areas[i].setBorder(noBorder);
-            if (i%3==1) Areas[i].setBorder(dBorder);
-            if (i%3==2) Areas[i].setBorder(plusBorder);
+            Areas[i].setFont(new Font("Segoe Script",Font.PLAIN, 45));
+            if (i % 3 == 0) Areas[i].setBorder(noBorder);
+            if (i % 3 == 1) Areas[i].setBorder(dBorder);
+            if (i % 3 == 2) Areas[i].setBorder(plusBorder);
             Areas[i].setColumns(2);
         }
     }
@@ -519,9 +517,9 @@ class UI {
         styleButtons();
     }
     static void styleButtons(){
-        for(int i=0;i<Buttons.length;i++){
-            Buttons[i].setFont(new Font("Arial Black",Font.BOLD, 23));
-            Buttons[i].updateUI();
+        for (JButton button : Buttons) {
+            button.setFont(new Font("Arial Black", Font.BOLD, 23));
+            button.updateUI();
         }
     }
     static void putButtonsInArray(){
@@ -563,7 +561,7 @@ class UI {
         PNotes.setVisible(false);
     }
     static void putStringsInArray(){
-        Strings= new String[100];
+        Strings= new String[24];
         Strings[0]=AA;
         Strings[1]=AB;
         Strings[2]=AC;
@@ -638,23 +636,24 @@ class UI {
     static void RollAttack(String ex, String dee, String and,String Weapon,String action,Boolean crit){
         System.out.println("hitting");
         try {
-            String xe=ex.replaceAll("\\s","");
-            String eed=dee.replaceAll("\\s","");
-            String dna=and.replaceAll("\\s","");
+            String xe = ex.replaceAll("\\s","");
+            String eed = dee.replaceAll("\\s","");
+            String dna = and.replaceAll("\\s","");
             int x;
             if (crit) x = 2 * Integer.parseInt(xe);
             else x = Integer.parseInt(xe);
             int d = Integer.parseInt(eed);
             int plus = Integer.parseInt(dna);
             int res = 0;
-            String building=Weapon+" "+action+" (";
+            StringBuilder buildingBuilder = new StringBuilder(Weapon + " " + action + " (");
             for (int i = 0; i < x; i++) {
                 int a=(int) (Math.random() * (d) + 1);
                 res = res+a;
-                building=building+a;
-                if(i!=x-1)building=building +" ";
+                buildingBuilder.append(a);
+                if(i!=x-1) buildingBuilder.append(" ");
             }
-            building=building+") + "+plus+" = ";
+            String building = buildingBuilder.toString();
+            building = building+") + "+plus+" = ";
             res = res + plus;
 
             StringBuilder thr= new StringBuilder();

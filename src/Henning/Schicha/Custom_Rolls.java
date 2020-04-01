@@ -25,12 +25,12 @@ class QuickRoll{
     static JTextField roll;
     static final int HISTORY_LENGTH = 10;
     static void init(){
-        listen = new QuickRollListener();
-        main = new JPanel(new BorderLayout());
-        main.setBorder(BorderFactory.createTitledBorder("Quick Roll"));
-        center = new JPanel(new GridLayout(HISTORY_LENGTH,1));
+        listen  = new QuickRollListener();
+        main    = new JPanel(new BorderLayout());
+        center  = new JPanel(new GridLayout(HISTORY_LENGTH,1));
         history = new JTextArea[HISTORY_LENGTH];
-        roll = new JTextField("0d0+0");
+        roll    = new JTextField("0d0+0");
+        main.setBorder(BorderFactory.createTitledBorder("Quick Roll"));
         roll.addKeyListener(listen);
         main.add(roll,BorderLayout.NORTH);
         main.add(center,BorderLayout.CENTER);
@@ -46,10 +46,11 @@ class QuickRoll{
         for (int i = (HISTORY_LENGTH-1);i>0;i--){
             history[i].setText(history[i-1].getText());
         }
-        String inBracket = "";
-        for (int i = 1; i < inter.length;i++){
-            inBracket = inBracket + inter[i] + " ";
+        StringBuilder inBracketBuilder = new StringBuilder();
+        for (int i = 1; i < inter.length; i++){
+            inBracketBuilder.append(inter[i]).append(" ");
         }
+        String inBracket = inBracketBuilder.toString();
         inBracket=inBracket.stripTrailing();
         history[0].setText("Rolled "+roll.getText()+": "+inter[0]+" ("+inBracket+")");
         Logger.log("<Quick rolled> "+roll.getText()+": "+inter[0]+" ("+inBracket+")");
@@ -212,22 +213,21 @@ class RollStats{
         if ((one <= two) && (one<= thr) && (one <= fou)){
             return two+thr+fou;
         }
-        if ((two <= one) && (two<= thr) && (two <= fou)){
+        else if ((two <= one) && (two<= thr) && (two <= fou)){
             return one+thr+fou;
         }
-        if ((thr <= two) && (thr<= one) && (thr <= fou)){
+        else if ((thr <= two) && (thr<= one) && (thr <= fou)){
             return two+one+fou;
         }
-        if ((fou <= two) && (fou<= thr) && (fou <= one)){
+        else{
             return two+thr+one;
         }
-        return 0;
     }
     static void rollem(){
         String[] prefixes = {"Str: ","Dex: ","Con: ","Int: ","Wis: ","Chr: "};
         switch ((String) Objects.requireNonNull(method.getSelectedItem())){
             case "3d6":
-                for (int i=0;i<6;i++){
+                for (int i = 0;i < 6;i++){
                     String prefix = prefixes[i];
                     String suffix = (CommonFunctions.RollDice("3d6+0")[0]+"");
                     all[i].setText(prefix+suffix);
@@ -246,17 +246,18 @@ class RollStats{
                 break;
             case "18d6":
                 int[] biglist = CommonFunctions.RollDice("18d6+0");
-                String total = "";
+                StringBuilder totalBuilder = new StringBuilder();
                 for (int i = 0; i < 18; i++){
-                    if (i!=17)total = total + (biglist[i+1]+", ");
-                    else total = total + (biglist[i+1]+"");
-                    if(i%6==5&&i!=17) total = total +"\n";
+                    if (i!=17) totalBuilder.append(biglist[i + 1]).append(", ");
+                    else totalBuilder.append(biglist[i + 1]);
+                    if(i%6==5&&i!=17) totalBuilder.append("\n");
                 }
+                String total = totalBuilder.toString();
                 list.setText(total);
                 Logger.log("<Rolled Character by 18d6> "+total.replace("\n",""));
                 break;
             default:
-                throw new IllegalStateException("Unexpected value: " + (String) Objects.requireNonNull(method.getSelectedItem()));
+                throw new IllegalStateException("Unexpected value: " + Objects.requireNonNull(method.getSelectedItem()));
         }
     }
 }

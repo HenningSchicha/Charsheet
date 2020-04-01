@@ -30,12 +30,12 @@ class Logger {
             if (JOptionPane.showConfirmDialog(UI.main,
                     "Are you sure you want to clear the Log?",
                     "Confirm clear Log",
-                    JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
-                BufferedWriter out = new BufferedWriter(new FileWriter(FilePaths.LOG, false));
-                out.append("");
-                out.close();
-                Miscellaneous.updateLog();
-                onStartup();
+                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        BufferedWriter out = new BufferedWriter(new FileWriter(FilePaths.LOG, false));
+                        out.append("");
+                        out.close();
+                        Miscellaneous.updateLog();
+                        onStartup();
             }
         } catch (IOException IOE){
             showError();
