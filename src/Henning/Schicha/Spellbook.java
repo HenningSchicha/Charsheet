@@ -107,10 +107,7 @@ class Spellbook {
         actualMenu.updateColors();
     }
     static void releaseRGBmaybe(){
-        if (Objects.requireNonNull(actualMenu.farbwahl.getSelectedItem()) =="Custom"){
-            releaseRGBdefinite(true);
-        }
-        else releaseRGBdefinite(false);
+        releaseRGBdefinite(Objects.requireNonNull(actualMenu.farbwahl.getSelectedItem()) == "Custom");
     }
     static void releaseRGBdefinite(Boolean dowe){
         actualMenu.R.setEditable(dowe);
@@ -123,9 +120,7 @@ class Spellbook {
         if (temp.equals("")) changePage();
         else {
             for (int i = 0; i < SPELL_NO; i++) {
-                if (Spells[i].name.toLowerCase().contains(temp.toLowerCase())) {
-                    components[i].main.setVisible(true);
-                } else components[i].main.setVisible(false);
+                components[i].main.setVisible(Spells[i].name.toLowerCase().contains(temp.toLowerCase()));
             }
         }
         }
@@ -310,7 +305,6 @@ class MenuComponent{
     JButton roll;
    JLabel name;
    AListener listen;
-   Boolean isFavorite;
    MenuComponent(String pname) {
         main=new JPanel(new FlowLayout());
         open=new JButton("View");
