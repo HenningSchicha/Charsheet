@@ -55,5 +55,20 @@ class CommonFunctions {
         String s = o.replaceAll("\\.","");
         return s.replaceAll("\\s","");
     }
+    static String repeatString(String s, long times){
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < times; i++){
+            result.append(s);
+        }
+        return result.toString();
+    }
+    static int charInString(char c, String s){
+        int count = 0;
+        for(int i = 0; i < s.length(); i++) {
+            if(s.charAt(i) == c)
+                count++;
+        }
+        return count;
+    }
 
 }

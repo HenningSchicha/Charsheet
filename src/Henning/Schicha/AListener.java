@@ -116,6 +116,9 @@ class AListener implements ActionListener {
         else if (e.getSource()==Miscellaneous.bClear){
             Logger.clearLog();
         }
+        else if (e.getSource()==Miscellaneous.bRoman){
+            Miscellaneous.setVisible(Miscellaneous.pRoman);
+        }
         else if (e.getSource()==Miscellaneous.bGoL){
             Miscellaneous.setVisible(Miscellaneous.pGoL);
         }
